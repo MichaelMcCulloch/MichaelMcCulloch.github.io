@@ -344,16 +344,17 @@
 
     .contact-block {
       margin-bottom: 1.5rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, auto);
-      gap: 0.75rem 1.25rem;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
       max-width: 100%;
     }
 
-    @media (max-width: 599px) {
+    @media (min-width: 600px) {
       .contact-block {
-        grid-template-columns: minmax(0, 1fr);
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 1.25rem;
       }
     }
 
@@ -375,10 +376,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      white-space: nowrap;
       max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .email-dot {
@@ -390,8 +388,6 @@
     }
 
     .primary-cta {
-      align-self: stretch;
-      justify-self: flex-start;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -406,7 +402,8 @@
       cursor: pointer;
       text-decoration: none;
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.65);
-      max-width: 100%;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .primary-cta:hover {
@@ -810,17 +807,11 @@
           </div>
         </div>
 
-        <div class="contact-block">
-          <div>
-            <div class="email-label">Contact</div>
-            <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
-              <span class="email-dot"></span>
-              <span>michael.mcculloch@semanticallyinvalid.com</span>
-            </a>
-          </div>
-          <a class="primary-cta" href="#work" data-route-link="work">
-            <span>View current work</span>
-            <span class="primary-cta-arrow">↳</span>
+        <div>
+          <div class="email-label">Contact</div>
+          <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
+            <span class="email-dot"></span>
+            <span>michael.mcculloch@semanticallyinvalid.com</span>
           </a>
         </div>
 
@@ -872,26 +863,6 @@
 
       <!-- RIGHT: SPA panels -->
       <section class="surface" aria-label="Content Navigator">
-        <div class="nav-title">Navigate this page</div>
-        <div class="nav-row" role="tablist" aria-label="Sections">
-          <button class="nav-pill" data-target="panel-work" data-route="work" role="tab" aria-selected="false">
-            <span class="nav-pill-dot"></span>
-            <span>Projects &amp; Work</span>
-          </button>
-          <button class="nav-pill" data-target="panel-themes" data-route="overview" role="tab" aria-selected="false">
-            <span class="nav-pill-dot"></span>
-            <span>Research Themes</span>
-          </button>
-          <button class="nav-pill" data-target="panel-writing" data-route="writing" role="tab" aria-selected="false">
-            <span class="nav-pill-dot"></span>
-            <span>Writing &amp; Essays</span>
-          </button>
-          <button class="nav-pill" data-target="panel-meta" data-route="meta" role="tab" aria-selected="false">
-            <span class="nav-pill-dot"></span>
-            <span>Meta</span>
-          </button>
-        </div>
-
         <div class="panel-stack">
           <!-- Work / Projects Panel -->
           <article id="panel-work" class="panel" role="tabpanel" aria-labelledby="work">
@@ -1142,21 +1113,12 @@
       };
 
       const panelEls = document.querySelectorAll('.panel');
-      const navPills = document.querySelectorAll('.nav-pill');
       const topNavItems = document.querySelectorAll('.app-nav .nav-item');
 
       function activatePanel(panelId, routeName) {
         panelEls.forEach(panel => {
           const isActive = panel.id === panelId;
           panel.classList.toggle('active', isActive);
-        });
-
-        navPills.forEach(pill => {
-          const target = pill.getAttribute('data-target');
-          const route = pill.getAttribute('data-route');
-          const active = (target === panelId) || (route && route === routeName);
-          pill.classList.toggle('active', active);
-          pill.setAttribute('aria-selected', active ? 'true' : 'false');
         });
 
         topNavItems.forEach(item => {
@@ -1185,16 +1147,12 @@
         routeTo(location.hash);
       });
 
-      // click handlers for SPA routing (top nav + right pills + CTA)
-      [...topNavItems, ...navPills].forEach(el => {
+      // click handlers for SPA routing (top nav + CTA)
+      topNavItems.forEach(el => {
         el.addEventListener('click', () => {
           const route = el.getAttribute('data-route');
           if (route) {
             location.hash = route;
-          } else {
-            const target = el.getAttribute('data-target');
-            const routeName = Object.keys(routeToPanel).find(k => routeToPanel[k] === target) || routeDefault;
-            location.hash = routeName;
           }
         });
 
