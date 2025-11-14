@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Michael McCulloch — Systems, Silicon & Self-Organizing Intelligence</title>
+  <title>Michael McCulloch — Systems, Silicon & Self‑Organizing Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Michael McCulloch — Researcher & engineer working on self-organizing neural architectures, continual learning, and silicon-native intelligence." />
@@ -16,8 +16,10 @@
       --accent: #4ef2c5;
       --accent-soft: rgba(78, 242, 197, 0.12);
       --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-strong: rgba(255, 255, 255, 0.16);
       --code-bg: #11141d;
       --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --shadow-hard: 0 26px 55px rgba(0, 0, 0, 0.85);
       --radius-xl: 20px;
       --radius-lg: 14px;
       --radius-md: 10px;
@@ -27,6 +29,7 @@
       --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
       --transition-fast: 0.16s ease-out;
       --transition-med: 0.24s ease-out;
+      --transition-slow: 0.5s ease-out;
     }
 
     * {
@@ -57,7 +60,12 @@
     a {
       color: var(--accent);
       text-decoration: none;
-      transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast);
     }
 
     a:hover {
@@ -67,37 +75,169 @@
 
     main {
       width: 100%;
-      max-width: 1080px;
-      padding: 1.5rem 1.1rem 3rem;
+      max-width: 1180px;
+      padding: 1.1rem 1.1rem 3rem;
       margin: 0 auto;
     }
 
     @media (min-width: 880px) {
       main {
-        padding: 2.5rem 2rem 4rem;
+        padding: 1.7rem 2rem 4rem;
       }
     }
 
-    .shell {
+    /* Top App Shell / Header */
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+      background: linear-gradient(to bottom,
+          rgba(5, 6, 8, 0.96),
+          rgba(5, 6, 8, 0.88),
+          rgba(5, 6, 8, 0.6));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.75);
+    }
+
+    .app-header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.65rem 1.1rem 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 880px) {
+      .app-header-inner {
+        padding: 0.7rem 2rem 0.8rem;
+      }
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .brand-initials {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top left, rgba(78, 242, 197, 0.6), rgba(11, 19, 32, 1));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #020506;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-size: 0.98rem;
+      font-weight: 550;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-tagline {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Global nav */
+
+    .app-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: flex-end;
+    }
+
+    .nav-item {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(120, 132, 160, 0.8);
+      background: rgba(8, 12, 20, 0.95);
+      color: #dde5f7;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.3rem 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-item-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(184, 196, 228, 0.9);
+      flex-shrink: 0;
+    }
+
+    .nav-item.active {
+      border-color: rgba(78, 242, 197, 0.9);
+      background: radial-gradient(circle at top left,
+          rgba(78, 242, 197, 0.18),
+          rgba(4, 16, 14, 0.97));
+      box-shadow: 0 0 0 1px rgba(78, 242, 197, 0.55);
+      color: #e9fff7;
+    }
+
+    .nav-item.active .nav-item-dot {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    /* Layout shell */
+
+    .app-shell {
+      margin-top: 1.2rem;
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.1fr);
       gap: 1.75rem;
       align-items: flex-start;
       width: 100%;
     }
 
+    .app-shell>* {
+      min-width: 0;
+    }
+
     @media (max-width: 879px) {
-      .shell {
+      .app-shell {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
     .surface {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.00));
+      background: linear-gradient(135deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0));
       border-radius: var(--radius-xl);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-soft);
-      padding: 1.6rem 1.4rem;
+      padding: 1.7rem 1.4rem;
       position: relative;
       overflow: hidden;
       max-width: 100%;
@@ -127,7 +267,7 @@
     }
 
     .tagline {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--fg-muted);
@@ -174,6 +314,7 @@
       color: var(--fg-muted);
       font-size: 0.97rem;
       margin-bottom: 1.3rem;
+      max-width: 40rem;
     }
 
     .subtitle strong {
@@ -332,7 +473,9 @@
     .highlight-block {
       border-radius: var(--radius-lg);
       border: 1px solid rgba(146, 173, 255, 0.35);
-      background: radial-gradient(circle at top left, rgba(119, 170, 255, 0.2), rgba(14, 18, 32, 0.95));
+      background: radial-gradient(circle at top left,
+          rgba(119, 170, 255, 0.2),
+          rgba(14, 18, 32, 0.95));
       padding: 0.9rem 1rem;
       font-size: 0.85rem;
       color: #e6ecff;
@@ -341,6 +484,7 @@
       gap: 0.5rem 0.9rem;
       align-items: center;
       max-width: 100%;
+      margin-bottom: 0.5rem;
     }
 
     .highlight-tag {
@@ -359,6 +503,8 @@
       flex: 1;
       min-width: 0;
     }
+
+    /* Right: SPA panels */
 
     .nav-title {
       font-size: 0.78rem;
@@ -422,14 +568,21 @@
     .panel {
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-subtle);
-      background: rgba(2, 6, 14, 0.85);
+      background: rgba(2, 6, 14, 0.9);
       padding: 1rem 1rem 1.1rem;
       display: none;
       max-width: 100%;
+      opacity: 0;
+      transform: translateY(4px);
+      transition:
+        opacity var(--transition-slow),
+        transform var(--transition-slow);
     }
 
     .panel.active {
       display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .panel-header {
@@ -524,6 +677,8 @@
 
     .code-comment {
       color: #687aa5;
+      display: block;
+      margin-bottom: 0.3rem;
     }
 
     .code-key {
@@ -538,9 +693,27 @@
       color: #b1ffdf;
     }
 
+    /* Section headings in panels */
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #7f8ba8;
+      margin-top: 0.4rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1.55rem 0 1.2rem;
+    }
+
+    /* Footer */
+
     footer {
       width: 100%;
-      max-width: 1080px;
+      max-width: 1180px;
       padding: 0 1.1rem 1.8rem;
       color: #626b80;
       font-size: 0.76rem;
@@ -563,13 +736,51 @@
     footer a:hover {
       color: #c4d0ea;
     }
+
+    /* Mobile tweaks */
+
+    @media (max-width: 599px) {
+      .brand-tagline {
+        display: none;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="brand-block">
+        <div class="brand-initials">MM</div>
+        <div class="brand-text">
+          <div class="brand-name">Michael&nbsp;McCulloch</div>
+          <div class="brand-tagline">Systems, silicon &amp; self‑organizing intelligence</div>
+        </div>
+      </div>
+      <nav class="app-nav" aria-label="Primary">
+        <button class="nav-item" data-route="overview" type="button">
+          <span class="nav-item-dot"></span>
+          <span>Overview</span>
+        </button>
+        <button class="nav-item" data-route="work" type="button">
+          <span class="nav-item-dot"></span>
+          <span>Work</span>
+        </button>
+        <button class="nav-item" data-route="writing" type="button">
+          <span class="nav-item-dot"></span>
+          <span>Writing</span>
+        </button>
+        <button class="nav-item" data-route="meta" type="button">
+          <span class="nav-item-dot"></span>
+          <span>Meta</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
   <main>
-    <div class="shell">
-      <!-- LEFT -->
+    <div class="app-shell">
+      <!-- LEFT: Profile / Overview (always visible, but copy adapts slightly per route if desired) -->
       <section class="surface" aria-label="Profile Overview">
         <div class="tagline">Semantic Intent / Silicon Substrate</div>
 
@@ -583,9 +794,9 @@
 
         <p class="subtitle">
           Researcher &amp; engineer working on
-          <strong>self-organizing neural architectures</strong>,
+          <strong>self‑organizing neural architectures</strong>,
           <strong>continual learning</strong>, and
-          <strong>silicon-native intelligence</strong>.
+          <strong>silicon‑native intelligence</strong>.
         </p>
 
         <div class="meta-row">
@@ -595,19 +806,19 @@
           </div>
           <div>
             <div class="meta-label">Focus</div>
-            <div class="meta-value">Active inference, dissipative systems, AGI-adjacent architectures</div>
+            <div class="meta-value">Active inference, dissipative systems, AGI‑adjacent architectures</div>
           </div>
         </div>
 
         <div class="contact-block">
           <div>
-            <div class="email-label">OpenReview / Contact</div>
+            <div class="email-label">Contact</div>
             <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
               <span class="email-dot"></span>
               <span>michael.mcculloch@semanticallyinvalid.com</span>
             </a>
           </div>
-          <a class="primary-cta" href="#projects">
+          <a class="primary-cta" href="#work" data-route-link="work">
             <span>View current work</span>
             <span class="primary-cta-arrow">↳</span>
           </a>
@@ -615,11 +826,8 @@
 
         <div>
           <div class="email-label">Profiles</div>
+
           <div class="link-row">
-            <a class="chip-link" href="https://orcid.org/0009-0008-9234-7189" target="_blank" rel="noopener noreferrer">
-              <span class="chip-dot"></span>
-              <span>ORCID&nbsp;0009‑0008‑9234‑7189</span>
-            </a>
             <a class="chip-link" href="https://github.com/MichaelMcCulloch" target="_blank" rel="noopener noreferrer">
               <span class="chip-dot"></span>
               <span>GitHub</span>
@@ -629,22 +837,28 @@
               <span class="chip-dot"></span>
               <span>LinkedIn</span>
             </a>
-            <a class="chip-link" href="https://substack.com/@semanticallyinvalid/" target="_blank"
+            <a class="chip-link" href="https://substack.com/@semanticallyinvalid" target="_blank"
               rel="noopener noreferrer">
               <span class="chip-dot"></span>
               <span>Substack</span>
             </a>
           </div>
+          <div class="link-row">
+            <a class="chip-link" href="https://orcid.org/0009-0008-9234-7189" target="_blank" rel="noopener noreferrer">
+              <span class="chip-dot"></span>
+              <span>ORCID&nbsp;0009‑0008‑9234‑7189</span>
+            </a>
+          </div>
         </div>
 
-        <hr style="border:none; border-top:1px solid rgba(255,255,255,0.06); margin:1.5rem 0 1.25rem;">
+        <hr class="divider" />
 
         <div class="about-text">
-          I work on <strong>self-organizing neural architectures that learn without backpropagation</strong>:
-          systems that acquire structure and behavior through ongoing interaction with their environment,
-          rather than a fixed offline training phase. My current research centers around
-          <strong>Autonomous Assembly of Neural Structure (AANS)</strong> and related dissipative,
-          continual learning architectures.
+          By day I build <strong>cloud‑native ML systems</strong> that are meant to withstand the tide of human error.
+          By night I work from first principles on
+          <strong>self‑organizing neural architectures that learn without backpropagation</strong>:
+          systems that acquire structure and behavior through ongoing interaction with their environment, not a fixed
+          offline training phase.
         </div>
 
         <div class="highlight-block">
@@ -656,39 +870,40 @@
         </div>
       </section>
 
-      <!-- RIGHT -->
-      <section class="surface" aria-label="Research Navigator">
+      <!-- RIGHT: SPA panels -->
+      <section class="surface" aria-label="Content Navigator">
         <div class="nav-title">Navigate this page</div>
         <div class="nav-row" role="tablist" aria-label="Sections">
-          <button class="nav-pill active" data-target="panel-projects" role="tab" aria-selected="true">
+          <button class="nav-pill" data-target="panel-work" data-route="work" role="tab" aria-selected="false">
             <span class="nav-pill-dot"></span>
-            <span>Projects</span>
+            <span>Projects &amp; Work</span>
           </button>
-          <button class="nav-pill" data-target="panel-research" role="tab" aria-selected="false">
+          <button class="nav-pill" data-target="panel-themes" data-route="overview" role="tab" aria-selected="false">
             <span class="nav-pill-dot"></span>
             <span>Research Themes</span>
           </button>
-          <button class="nav-pill" data-target="panel-writing" role="tab" aria-selected="false">
+          <button class="nav-pill" data-target="panel-writing" data-route="writing" role="tab" aria-selected="false">
             <span class="nav-pill-dot"></span>
             <span>Writing &amp; Essays</span>
           </button>
-          <button class="nav-pill" data-target="panel-meta" role="tab" aria-selected="false">
+          <button class="nav-pill" data-target="panel-meta" data-route="meta" role="tab" aria-selected="false">
             <span class="nav-pill-dot"></span>
             <span>Meta</span>
           </button>
         </div>
 
         <div class="panel-stack">
-          <!-- Projects Panel -->
-          <article id="panel-projects" class="panel active" role="tabpanel">
+          <!-- Work / Projects Panel -->
+          <article id="panel-work" class="panel" role="tabpanel" aria-labelledby="work">
             <div class="panel-header">
               <div>
-                <div class="panel-title" id="projects">Autonomous Assembly of Neural Structure (AANS)</div>
+                <div class="panel-title" id="work">Autonomous Assembly of Neural Structure (AANS)</div>
                 <div class="panel-tagline">Dissipative, continual learning on silicon</div>
               </div>
               <span class="pill-tag">Active Project</span>
             </div>
             <div class="panel-body">
+              <p class="section-label">Summary</p>
               <p>
                 AANS is a <strong>constructive proof of the free energy principle</strong> implemented as a
                 <strong>dissipative neural system</strong>. Instead of relying on backpropagation and replay buffers,
@@ -701,35 +916,46 @@
                 <li>Structural credit assignment with &gt;97% Pearson correlation vs eligibility propagation.</li>
                 <li>Lunar Lander in <strong>&lt; 30 episodes</strong> on average, no replay buffers or rollouts.</li>
               </ul>
+
+              <p class="section-label">Why it matters</p>
+              <p>
+                If AGI is not a chatbot, then its substrate needs to
+                <strong>learn continuously, under constraint, from experience</strong>.
+                AANS is a step toward that: one model instance, one lifetime, no retraining from scratch.
+              </p>
+
               <div class="badge-row">
                 <span class="badge badge-accent">Dissipative systems</span>
                 <span class="badge">Free energy principle</span>
                 <span class="badge">Continual learning</span>
                 <span class="badge">Active inference</span>
-                <span class="badge">CUDA / GPU-native</span>
+                <span class="badge">CUDA / GPU‑native</span>
               </div>
-              <div class="code-block">
-                <span class="code-comment">// sketch: one lifetime, one model instance</span>
-                <span class="code-key">agent</span> <span class="code-type">AANS</span> = <span
-                  class="code-key">new</span> <span class="code-type">DissipativeSystem</span>({
-                objective: <span class="code-str">"minimize surprise via structure + dynamics"</span>,
-                supports: <span class="code-str">"online learning, task switching, transfer"</span>,
-                training: <span class="code-str">"no backprop, no replay buffers"</span>
-                });
-              </div>
-              <p style="margin-top:0.6rem;">
+
+
+
+              <p style="margin-top:0.7rem;">
                 <strong>Code</strong>:
                 <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure" target="_blank"
                   rel="noopener noreferrer">GitHub</a>
                 &nbsp;·&nbsp;
-                <strong>Paper</strong>:
-                <a href="https://arxiv.org/abs/2510.17916" target="_blank" rel="noopener noreferrer">arXiv</a>
+                <strong>Article</strong>:
+                <a href="https://lnkd.in/gVtxKUTC" target="_blank" rel="noopener noreferrer">Overview &amp; results</a>
+              </p>
+
+              <hr class="divider" />
+
+              <p class="section-label">Previous &amp; adjacent work</p>
+              <p>
+                Beyond AANS, my work spans <strong>cloud ML infrastructure</strong> (AWS, GCP, Azure), custom
+                <strong>dashboards, parsers, engines</strong>, and experiments in treating intelligence as a
+                <strong>thermodynamic phenomenon</strong> rather than a narrowly defined model class.
               </p>
             </div>
           </article>
 
           <!-- Research Themes Panel -->
-          <article id="panel-research" class="panel" role="tabpanel">
+          <article id="panel-themes" class="panel" role="tabpanel">
             <div class="panel-header">
               <div>
                 <div class="panel-title">Research Themes</div>
@@ -738,17 +964,17 @@
               <span class="pill-tag">Focus Areas</span>
             </div>
             <div class="panel-body">
-              <p><strong>Self-Organizing Neural Architectures</strong></p>
+              <p><strong>Self‑Organizing Neural Architectures</strong></p>
               <p>
                 Architectures that <strong>build and revise themselves</strong> through interaction,
                 borrowing from watershed formation, cellular metabolism, and atmospheric dynamics.
               </p>
 
-              <p><strong>Silicon-Native Intelligence</strong></p>
+              <p><strong>Silicon‑Native Intelligence</strong></p>
               <p>
                 Treating CPUs/GPUs not as proxies for brains, but as a
-                <strong>different substrate with different affordances</strong>—high precision, high power,
-                global clocks, and vast memory. The goal is not a better brain, but a
+                <strong>different substrate with different affordances</strong>: high precision,
+                high power, global clocks, and vast memory. The goal is not a better brain, but a
                 <strong>different class of cognitive system</strong> that fully exploits silicon.
               </p>
 
@@ -756,14 +982,22 @@
               <p>
                 Understanding large language models as the
                 <strong>next major compiler layer</strong>: tools that subsume rote skill while amplifying the
-                remaining scarce resource—<em>discernment</em>.
+                remaining scarce resource—<em>discernment</em>. LLMs are not the end of programming; they are the
+                latest abstraction over “how” so humans can spend more effort on “what” and “why.”
+              </p>
+
+              <p><strong>Thermodynamics of Learning</strong></p>
+              <p>
+                Viewing biological and artificial intelligence as <strong>dissipative structures</strong>:
+                entities that persist by consuming low entropy and exporting high entropy. From this lens, learning
+                becomes an energy‑driven process embedded in physical law, not just an optimization problem.
               </p>
 
               <div class="badge-row">
                 <span class="badge">Neuromorphic perspectives</span>
-                <span class="badge">AGI-adjacent systems</span>
-                <span class="badge">Constraints-first design</span>
-                <span class="badge">Thermodynamics of learning</span>
+                <span class="badge">AGI‑adjacent systems</span>
+                <span class="badge">Constraints‑first design</span>
+                <span class="badge">Entropy‑aware architectures</span>
               </div>
             </div>
           </article>
@@ -775,46 +1009,60 @@
                 <div class="panel-title">Writing &amp; Essays</div>
                 <div class="panel-tagline">Abstractions, entropy, and the future of intelligence</div>
               </div>
-              <span class="pill-tag">Selected Topics</span>
+              <span class="pill-tag">Selected Ideas</span>
             </div>
             <div class="panel-body">
-              <p><strong>Is the LLM the Next Compiler?</strong></p>
+              <p><strong>LLMs as the Next Compiler</strong></p>
               <p>
-                A historical and conceptual walk from punch cards → assemblers → compilers →
-                virtual machines → LLMs as the <strong>latest abstraction over “how”</strong>,
-                freeing humans to spend more effort on “what” and “why.”
+                A historical and conceptual walk from punch cards → assemblers → compilers → virtual machines →
+                LLMs as the <strong>latest abstraction over “how”</strong>, freeing humans to focus on “what”
+                and “why.” Assemblers didn’t kill programming. Compilers didn’t kill programming.
+                LLMs won’t either—they just change which skills are scarce.
               </p>
 
-              <p><strong>Silicon vs Biology</strong></p>
+              <p><strong>Silicon vs. Biology</strong></p>
               <p>
-                Why the brain is an <strong>energy-efficient accident under constraints</strong>,
-                and why silicon should be treated as a distinct
-                <strong>high-energy, high-precision cognitive medium</strong>.
+                The brain is an <strong>energy‑efficient accident under constraint</strong>; silicon is a
+                <strong>high‑energy, high‑precision substrate</strong> that doesn’t share those constraints.
+                The future of AI is not “a better brain” but
+                <strong>an alien class of cognition</strong> exploiting speed, precision, and scale in ways biology
+                could never afford.
               </p>
 
               <p><strong>Internet v1 → v3</strong></p>
               <p>
-                A thermodynamic and cultural lament for the early, human-scale internet, and an observation
-                that bots and LLMs now occupy much of the abandoned surface area.
+                A lament for the early, human‑scale internet of personal sites, Newgrounds, Neopets, and weird forums—
+                and an observation that today’s web is closer to a chain of ghost towns where
+                <strong>LLMs inhabit the empty storefronts</strong> left behind by people.
               </p>
 
               <p><strong>Risk, AGI, and “If Anyone Builds It…”</strong></p>
               <p>
-                Reflections on AI risk framed less as science fiction and more as
-                <strong>game theory plus human hubris</strong>, drawing analogies to chess, Go,
-                and other domains where “never” quietly became “yesterday.”
+                Reflections on AI risk framed as <strong>game theory plus human hubris</strong>, not science fiction.
+                From Stockfish vs. 8 billion humans to the atom, flight, and space travel, the pattern is the same:
+                “impossible” quietly becomes “inevitable” once the enabling technology appears.
+              </p>
+
+              <p><strong>Quantum Measurement vs. Quantum Woo</strong></p>
+              <p>
+                Clarifying that <strong>no physicist believes consciousness collapses the wavefunction</strong>;
+                the measurement problem is about formalizing what “measurement” even means in a theory,
+                not about human intent altering reality through vibes.
               </p>
 
               <p style="margin-top:0.7rem;">
-                A curated selection of essays and threads will live here soon. In the meantime,
-                you can find ongoing work via:
+                A curated selection of essays will live here soon. For now:
               </p>
               <div class="badge-row">
                 <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank"
                   rel="noopener noreferrer">
                   GitHub — projects &amp; experiments
                 </a>
-                <span class="badge">Long-form essays (incoming)</span>
+                <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid" target="_blank"
+                  rel="noopener noreferrer">
+                  Substack — writing &amp; essays
+                </a>
+                <span class="badge">Long‑form essays (incoming)</span>
               </div>
             </div>
           </article>
@@ -829,7 +1077,7 @@
               <span class="pill-tag">First Principles</span>
             </div>
             <div class="panel-body">
-              <p><strong>First Principles Over Rote Memorization</strong></p>
+              <p><strong>First Principles over Rote Memorization</strong></p>
               <p>
                 If I can’t derive a result from scratch, I don’t claim to understand it.
                 This applies equally to calculus, CUDA kernels, and organizational dynamics.
@@ -837,28 +1085,36 @@
 
               <p><strong>Depth × Breadth = Volume</strong></p>
               <p>
-                The useful work comes from combining <strong>local depth</strong> with
-                <strong>global context</strong>.
+                The most useful work comes from combining <strong>local depth</strong> with
+                <strong>global context</strong>. I try to maximize the volume under that curve rather than
+                specializing narrowly or generalizing shallowly.
               </p>
 
               <p><strong>Tools as Abstractions, Not Identity</strong></p>
               <p>
-                I’m not bound to one language or framework. Tools are ephemeral; taste and
-                discernment are the actual skills. LLMs are simply the latest abstraction that frees humans from rote
-                work.
+                I’m not a “Java person” or a “Python person.” Tools are ephemeral; taste and
+                discernment are the actual skills. LLMs are simply the latest abstraction that frees humans from
+                rote work while making <strong>good judgment</strong> more valuable.
               </p>
 
               <p><strong>Entropy as a Design Constraint</strong></p>
               <p>
-                Whether building cloud ML infrastructure or neuromorphic-style systems, I aim for
-                minimal surface area exposed to entropy—<strong>no-hair theorems applied to software</strong>.
+                Whether building cloud ML infrastructure or neuromorphic‑style systems, I aim for
+                minimal surface area exposed to entropy—a kind of <strong>no‑hair theorem for software</strong>.
+              </p>
+
+              <p><strong>Thermodynamic View of Systems</strong></p>
+              <p>
+                From economies to intelligence, I tend to see systems as
+                <strong>flows of energy and information</strong> under constraint: billionaires as singularities,
+                institutions as accretion disks, AI clusters as new kinds of stars.
               </p>
 
               <div class="badge-row">
-                <span class="badge">First-principles reasoning</span>
+                <span class="badge">First‑principles reasoning</span>
                 <span class="badge">Systems thinking</span>
                 <span class="badge">Abstraction design</span>
-                <span class="badge">Entropy-aware engineering</span>
+                <span class="badge">Entropy‑aware engineering</span>
               </div>
             </div>
           </article>
@@ -869,39 +1125,103 @@
 
   <footer>
     <div>© <span id="year"></span> Michael McCulloch — semanticallyinvalid.com</div>
+    <div>Built as a zero‑dependency, single‑page app. No supply chain attacks.</div>
   </footer>
 
   <script>
     (function () {
-      const navPills = document.querySelectorAll('.nav-pill');
-      const panels = document.querySelectorAll('.panel');
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      function activate(targetId) {
-        panels.forEach(panel => {
-          panel.classList.toggle('active', panel.id === targetId);
+      const routeDefault = 'overview';
+      const routeToPanel = {
+        overview: 'panel-themes',
+        work: 'panel-work',
+        writing: 'panel-writing',
+        meta: 'panel-meta'
+      };
+
+      const panelEls = document.querySelectorAll('.panel');
+      const navPills = document.querySelectorAll('.nav-pill');
+      const topNavItems = document.querySelectorAll('.app-nav .nav-item');
+
+      function activatePanel(panelId, routeName) {
+        panelEls.forEach(panel => {
+          const isActive = panel.id === panelId;
+          panel.classList.toggle('active', isActive);
         });
+
         navPills.forEach(pill => {
-          const active = pill.getAttribute('data-target') === targetId;
+          const target = pill.getAttribute('data-target');
+          const route = pill.getAttribute('data-route');
+          const active = (target === panelId) || (route && route === routeName);
           pill.classList.toggle('active', active);
           pill.setAttribute('aria-selected', active ? 'true' : 'false');
         });
+
+        topNavItems.forEach(item => {
+          const route = item.getAttribute('data-route');
+          const active = route === routeName;
+          item.classList.toggle('active', active);
+        });
       }
 
-      navPills.forEach(pill => {
-        pill.addEventListener('click', function () {
-          const target = this.getAttribute('data-target');
-          if (target) activate(target);
+      function normalizeRoute(hash) {
+        if (!hash) return routeDefault;
+        const cleaned = hash.replace('#', '').trim().toLowerCase();
+        if (cleaned in routeToPanel) return cleaned;
+        return routeDefault;
+      }
+
+      function routeTo(hash) {
+        const routeName = normalizeRoute(hash);
+        const panelId = routeToPanel[routeName];
+        if (panelId) {
+          activatePanel(panelId, routeName);
+        }
+      }
+
+      window.addEventListener('hashchange', () => {
+        routeTo(location.hash);
+      });
+
+      // click handlers for SPA routing (top nav + right pills + CTA)
+      [...topNavItems, ...navPills].forEach(el => {
+        el.addEventListener('click', () => {
+          const route = el.getAttribute('data-route');
+          if (route) {
+            location.hash = route;
+          } else {
+            const target = el.getAttribute('data-target');
+            const routeName = Object.keys(routeToPanel).find(k => routeToPanel[k] === target) || routeDefault;
+            location.hash = routeName;
+          }
         });
-        pill.addEventListener('keydown', function (e) {
+
+        el.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            const target = this.getAttribute('data-target');
-            if (target) activate(target);
+            const route = el.getAttribute('data-route');
+            if (route) {
+              location.hash = route;
+            }
           }
         });
       });
 
-      document.getElementById('year').textContent = new Date().getFullYear();
+      const routeLinks = document.querySelectorAll('[data-route-link]');
+      routeLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const route = link.getAttribute('data-route-link');
+          if (route) {
+            e.preventDefault();
+            location.hash = route;
+          }
+        });
+      });
+
+      // initial load
+      routeTo(location.hash || '#' + routeDefault);
     })();
   </script>
 </body>
