@@ -6,27 +6,37 @@
   <title>Michael McCulloch — Systems, Silicon & Self‑Organizing Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="Michael McCulloch — Researcher & engineer working on self-organizing neural architectures, continual learning, and silicon-native intelligence." />
+    content="Michael McCulloch — Researcher & engineer working on dissipative, self-organizing neural architectures, continual learning, and silicon-native intelligence." />
   <style>
     :root {
-      --bg: #050608;
-      --bg-elevated: #0d1016;
+      /* Base palette: dark gallery, not neon terminal */
+      --bg: #040506;
+      --bg-elevated: #0b0d11;
       --fg: #f7f7f7;
-      --fg-muted: #a4acb9;
-      --accent: #4ef2c5;
-      --accent-soft: rgba(78, 242, 197, 0.12);
+      --fg-muted: #a5aebe;
+
+      /* Accent: oxidized copper / patina */
+      --accent: #5bd4b0;
+      --accent-soft: rgba(91, 212, 176, 0.14);
+
+      /* Warm gallery light / parchment */
+      --accent-warm: #f1d9a7;
+
+      /* Deep spectral accent (for code, subtle highlights) */
+      --accent-deep: #556bff;
+
       --border-subtle: rgba(255, 255, 255, 0.06);
-      --border-strong: rgba(255, 255, 255, 0.16);
-      --code-bg: #11141d;
+      --code-bg: #0d1018;
       --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
-      --shadow-hard: 0 26px 55px rgba(0, 0, 0, 0.85);
       --radius-xl: 20px;
       --radius-lg: 14px;
       --radius-md: 10px;
       --radius-pill: 999px;
+
       --font-body: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Inter", "Segoe UI", sans-serif;
       --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
       --transition-fast: 0.16s ease-out;
       --transition-med: 0.24s ease-out;
       --transition-slow: 0.5s ease-out;
@@ -40,7 +50,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: radial-gradient(circle at top, #161b26 0, #050608 55%);
+      background: radial-gradient(circle at top, #151823 0, #040506 55%);
       color: var(--fg);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
@@ -70,7 +80,7 @@
 
     a:hover {
       text-decoration: none;
-      color: #cffdf0;
+      color: #d6fff1;
     }
 
     main {
@@ -95,11 +105,11 @@
       backdrop-filter: blur(18px) saturate(130%);
       -webkit-backdrop-filter: blur(18px) saturate(130%);
       background: linear-gradient(to bottom,
-          rgba(5, 6, 8, 0.96),
-          rgba(5, 6, 8, 0.88),
-          rgba(5, 6, 8, 0.6));
+          rgba(4, 5, 6, 0.96),
+          rgba(4, 5, 6, 0.9),
+          rgba(4, 5, 6, 0.65));
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.75);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.78);
     }
 
     .app-header-inner {
@@ -129,14 +139,15 @@
       width: 32px;
       height: 32px;
       border-radius: 12px;
-      background: radial-gradient(circle at top left, rgba(78, 242, 197, 0.6), rgba(11, 19, 32, 1));
+      background:
+        radial-gradient(circle at top left, rgba(91, 212, 176, 0.6), rgba(7, 13, 22, 1));
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
       font-weight: 600;
       color: #020506;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
     }
 
     .brand-text {
@@ -174,7 +185,7 @@
     .nav-item {
       border-radius: var(--radius-pill);
       border: 1px solid rgba(120, 132, 160, 0.8);
-      background: rgba(8, 12, 20, 0.95);
+      background: rgba(7, 11, 19, 0.96);
       color: #dde5f7;
       font-size: 0.78rem;
       text-transform: uppercase;
@@ -196,12 +207,12 @@
     }
 
     .nav-item.active {
-      border-color: rgba(78, 242, 197, 0.9);
+      border-color: rgba(91, 212, 176, 0.9);
       background: radial-gradient(circle at top left,
-          rgba(78, 242, 197, 0.18),
-          rgba(4, 16, 14, 0.97));
-      box-shadow: 0 0 0 1px rgba(78, 242, 197, 0.55);
-      color: #e9fff7;
+          rgba(91, 212, 176, 0.2),
+          rgba(6, 16, 14, 0.96));
+      box-shadow: 0 0 0 1px rgba(91, 212, 176, 0.5);
+      color: #ecfff8;
     }
 
     .nav-item.active .nav-item-dot {
@@ -231,9 +242,9 @@
     }
 
     .surface {
-      background: linear-gradient(135deg,
-          rgba(255, 255, 255, 0.02),
-          rgba(255, 255, 255, 0));
+      background:
+        radial-gradient(circle at top left, rgba(91, 212, 176, 0.08), transparent 60%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0));
       border-radius: var(--radius-xl);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-soft);
@@ -254,8 +265,8 @@
       position: absolute;
       inset: -40%;
       background:
-        radial-gradient(circle at top left, rgba(78, 242, 197, 0.17) 0, transparent 55%),
-        radial-gradient(circle at bottom right, rgba(78, 242, 197, 0.05) 0, transparent 55%);
+        radial-gradient(circle at top left, rgba(91, 212, 176, 0.16) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(85, 107, 255, 0.1) 0, transparent 60%);
       opacity: 0.7;
       mix-blend-mode: screen;
       pointer-events: none;
@@ -295,7 +306,7 @@
       padding: 0.35rem 0.9rem;
       border-radius: var(--radius-pill);
       background: rgba(11, 182, 102, 0.13);
-      border: 1px solid rgba(78, 242, 197, 0.4);
+      border: 1px solid rgba(91, 212, 176, 0.5);
       color: #d6fff2;
       display: inline-flex;
       align-items: center;
@@ -335,34 +346,18 @@
       text-transform: uppercase;
       letter-spacing: 0.16em;
       font-size: 0.75rem;
-      color: #75819a;
+      color: #7a8398;
     }
 
     .meta-value {
       color: #d1d7e4;
     }
 
-    .contact-block {
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-width: 100%;
-    }
-
-    @media (min-width: 600px) {
-      .contact-block {
-        flex-direction: row;
-        align-items: flex-end;
-        gap: 1.25rem;
-      }
-    }
-
     .email-label {
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: #75819a;
+      color: #7a8398;
       margin-bottom: 0.3rem;
     }
 
@@ -371,8 +366,8 @@
       font-size: 0.85rem;
       padding: 0.4rem 0.7rem;
       border-radius: var(--radius-md);
-      background: rgba(4, 10, 20, 0.85);
-      border: 1px solid rgba(110, 124, 150, 0.55);
+      background: rgba(4, 10, 22, 0.9);
+      border: 1px solid rgba(110, 124, 150, 0.65);
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -383,42 +378,8 @@
       width: 5px;
       height: 5px;
       border-radius: 999px;
-      background: #18d78a;
+      background: #1adf8b;
       flex-shrink: 0;
-    }
-
-    .primary-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      padding: 0.6rem 1.05rem;
-      font-size: 0.84rem;
-      font-weight: 500;
-      border-radius: var(--radius-pill);
-      border: 1px solid transparent;
-      background: linear-gradient(135deg, #4ef2c5, #0bb687);
-      color: #020406;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.65);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .primary-cta:hover {
-      transform: translateY(-1px) translateZ(0);
-      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.75);
-      color: #020406;
-    }
-
-    .primary-cta span {
-      font-size: 0.9rem;
-    }
-
-    .primary-cta-arrow {
-      font-size: 0.9rem;
-      transform: translateY(1px);
     }
 
     .link-row {
@@ -432,8 +393,8 @@
       font-size: 0.78rem;
       padding: 0.3rem 0.8rem;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(132, 143, 170, 0.65);
-      background: rgba(3, 7, 14, 0.85);
+      border: 1px solid rgba(132, 143, 170, 0.7);
+      background: rgba(3, 7, 16, 0.9);
       color: #d1d7e4;
       display: inline-flex;
       align-items: center;
@@ -442,7 +403,7 @@
     }
 
     .chip-link:hover {
-      background: rgba(13, 20, 33, 1);
+      background: rgba(12, 17, 29, 1);
       border-color: rgba(211, 224, 255, 0.9);
       transform: translateY(-1px);
     }
@@ -469,13 +430,13 @@
 
     .highlight-block {
       border-radius: var(--radius-lg);
-      border: 1px solid rgba(146, 173, 255, 0.35);
+      border: 1px solid rgba(241, 217, 167, 0.5);
       background: radial-gradient(circle at top left,
-          rgba(119, 170, 255, 0.2),
-          rgba(14, 18, 32, 0.95));
+          rgba(241, 217, 167, 0.16),
+          rgba(14, 18, 28, 0.96));
       padding: 0.9rem 1rem;
       font-size: 0.85rem;
-      color: #e6ecff;
+      color: #f6eddc;
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem 0.9rem;
@@ -487,12 +448,12 @@
     .highlight-tag {
       padding: 0.22rem 0.7rem;
       border-radius: var(--radius-pill);
-      background: rgba(4, 10, 25, 0.88);
-      border: 1px solid rgba(172, 196, 255, 0.55);
+      background: rgba(6, 10, 23, 0.94);
+      border: 1px solid rgba(241, 217, 167, 0.8);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.13em;
-      color: #d2ddff;
+      color: #f8f0de;
       white-space: nowrap;
     }
 
@@ -501,60 +462,13 @@
       min-width: 0;
     }
 
-    /* Right: SPA panels */
-
-    .nav-title {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #707b93;
-      margin-bottom: 0.55rem;
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 1.55rem 0 1.2rem;
     }
 
-    .nav-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .nav-pill {
-      padding: 0.32rem 0.9rem;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(117, 129, 155, 0.85);
-      background: rgba(7, 12, 21, 0.9);
-      color: #e0e7f5;
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      cursor: pointer;
-      max-width: 100%;
-    }
-
-    .nav-pill span {
-      font-size: 0.9em;
-    }
-
-    .nav-pill-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 999px;
-      background: rgba(204, 214, 238, 0.85);
-      flex-shrink: 0;
-    }
-
-    .nav-pill.active {
-      border-color: rgba(78, 242, 197, 0.8);
-      background: rgba(12, 45, 38, 0.95);
-      box-shadow: 0 0 0 1px rgba(78, 242, 197, 0.4);
-      color: #e6fff7;
-    }
-
-    .nav-pill.active .nav-pill-dot {
-      background: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
+    /* Right: panels */
 
     .panel-stack {
       display: grid;
@@ -565,7 +479,7 @@
     .panel {
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-subtle);
-      background: rgba(2, 6, 14, 0.9);
+      background: rgba(6, 8, 16, 0.97);
       padding: 1rem 1rem 1.1rem;
       display: none;
       max-width: 100%;
@@ -600,7 +514,7 @@
 
     .panel-tagline {
       font-size: 0.8rem;
-      color: #808aa1;
+      color: #8791a8;
     }
 
     .pill-tag {
@@ -635,6 +549,19 @@
       margin-bottom: 0.35rem;
     }
 
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--accent-warm);
+      margin-top: 0.55rem;
+    }
+
+    .cite {
+      font-size: 0.78em;
+      color: #8f97b2;
+    }
+
     .badge-row {
       display: flex;
       flex-wrap: wrap;
@@ -648,62 +575,21 @@
       border-radius: var(--radius-pill);
       border: 1px solid rgba(124, 138, 172, 0.9);
       color: #d0daf0;
-      background: rgba(4, 10, 21, 0.9);
+      background: rgba(4, 10, 21, 0.95);
       white-space: nowrap;
     }
 
     .badge-accent {
-      border-color: rgba(78, 242, 197, 0.8);
-      background: rgba(8, 39, 32, 0.95);
+      border-color: rgba(91, 212, 176, 0.85);
+      background: rgba(10, 31, 26, 0.97);
       color: #e5fff8;
     }
 
-    .code-block {
+    /* Writing panel: list styling */
+
+    .writing-item-title {
+      font-weight: 500;
       margin-top: 0.4rem;
-      padding: 0.75rem 0.8rem;
-      border-radius: var(--radius-md);
-      background: var(--code-bg);
-      border: 1px solid rgba(93, 109, 146, 0.8);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: #e7ecff;
-      overflow-x: auto;
-      white-space: pre;
-      max-width: 100%;
-    }
-
-    .code-comment {
-      color: #687aa5;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .code-key {
-      color: #88e1ff;
-    }
-
-    .code-str {
-      color: #ffd58c;
-    }
-
-    .code-type {
-      color: #b1ffdf;
-    }
-
-    /* Section headings in panels */
-
-    .section-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: #7f8ba8;
-      margin-top: 0.4rem;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      margin: 1.55rem 0 1.2rem;
     }
 
     /* Footer */
@@ -734,8 +620,6 @@
       color: #c4d0ea;
     }
 
-    /* Mobile tweaks */
-
     @media (max-width: 599px) {
       .brand-tagline {
         display: none;
@@ -761,7 +645,7 @@
         </button>
         <button class="nav-item" data-route="work" type="button">
           <span class="nav-item-dot"></span>
-          <span>Work</span>
+          <span>AANS</span>
         </button>
         <button class="nav-item" data-route="writing" type="button">
           <span class="nav-item-dot"></span>
@@ -777,7 +661,7 @@
 
   <main>
     <div class="app-shell">
-      <!-- LEFT: Profile / Overview (always visible, but copy adapts slightly per route if desired) -->
+      <!-- LEFT: Overview / identity -->
       <section class="surface" aria-label="Profile Overview">
         <div class="tagline">Semantic Intent / Silicon Substrate</div>
 
@@ -790,10 +674,9 @@
         </div>
 
         <p class="subtitle">
-          Researcher &amp; engineer working on
-          <strong>self‑organizing neural architectures</strong>,
-          <strong>continual learning</strong>, and
-          <strong>silicon‑native intelligence</strong>.
+          I work on <strong>dissipative, self‑organizing neural architectures</strong> that learn
+          online without backpropagation: systems that acquire structure and behavior through
+          continuous interaction with their environment, rather than a fixed offline training phase.
         </p>
 
         <div class="meta-row">
@@ -803,7 +686,7 @@
           </div>
           <div>
             <div class="meta-label">Focus</div>
-            <div class="meta-value">Active inference, dissipative systems, AGI‑adjacent architectures</div>
+            <div class="meta-value">Free Energy Principle, dissipative systems, structural credit assignment</div>
           </div>
         </div>
 
@@ -817,7 +700,6 @@
 
         <div>
           <div class="email-label">Profiles</div>
-
           <div class="link-row">
             <a class="chip-link" href="https://github.com/MichaelMcCulloch" target="_blank" rel="noopener noreferrer">
               <span class="chip-dot"></span>
@@ -845,200 +727,244 @@
         <hr class="divider" />
 
         <div class="about-text">
-          By day I build <strong>cloud‑native ML systems</strong> that are meant to withstand the tide of human error.
-          By night I work from first principles on
-          <strong>self‑organizing neural architectures that learn without backpropagation</strong>:
-          systems that acquire structure and behavior through ongoing interaction with their environment, not a fixed
-          offline training phase.
+          By day I am a <strong>Cloud ML Engineer</strong>. I build systems that are meant to
+          withstand the tide of human error. Ideally these systems will outlast my natural life.
+          In practice, it is a constant push and pull between me, your server, and the forces
+          of entropy. I always seek the minimal surface to effect a task — a “no‑hair theorem” of software.
+        </div>
+
+        <div class="about-text">
+          By night, I build things from first principles: dashboards, engines, parsers, and
+          machine learning systems. My current obsession is to copy the homework of natural law,
+          derive it from first principles in silicon, and bestow nature’s tricks upon a CUDA chip.
+          Every problem you want solved was solved by biochemistry first, and by accident. If it can
+          be discovered by accident, it can be engineered on purpose.
         </div>
 
         <div class="highlight-block">
           <div class="highlight-tag">Current Direction</div>
           <div class="highlight-text">
             Online, lifelong learning systems that behave less like static models and more like
-            <strong>physical processes</strong>—watersheds, cells, hurricanes—implemented on GPU.
+            <strong>physical processes</strong> — watersheds, cells, hurricanes — implemented on GPU,
+            unifying dissipative systems with variational free energy.
           </div>
         </div>
       </section>
 
-      <!-- RIGHT: SPA panels -->
+      <!-- RIGHT: panels -->
       <section class="surface" aria-label="Content Navigator">
         <div class="panel-stack">
-          <!-- Work / Projects Panel -->
-          <article id="panel-work" class="panel" role="tabpanel" aria-labelledby="work">
+          <!-- Research Themes / Overview -->
+          <article id="panel-overview" class="panel" role="tabpanel">
             <div class="panel-header">
               <div>
-                <div class="panel-title" id="work">Autonomous Assembly of Neural Structure (AANS)</div>
-                <div class="panel-tagline">Dissipative, continual learning on silicon</div>
+                <div class="panel-title">Self‑Organization as a Physical Principle</div>
+                <div class="panel-tagline">Prigogine, Friston, and two views of the same story</div>
+              </div>
+              <span class="pill-tag">Research Themes</span>
+            </div>
+            <div class="panel-body">
+              <p class="section-label">From Dissipative Systems to Free Energy</p>
+              <p>
+                Hurricanes, living cells, candle flames, stars, brains — all of these are examples of
+                Prigogine’s dissipative systems<span class="cite"> (Prigogine, 1977)</span>. These systems,
+                operating at non‑equilibrium steady state, maintain their Markov blanket — their structure —
+                by exporting entropy<span class="cite"> (Pearl, 1988; Friston, 2019)</span>. Hurricanes maintain
+                their structure by exporting wind, cells by exporting heat, candle flames by exporting combustion
+                products, stars by exporting radiation, and brains by exporting surprise, in the Bayesian sense
+                <span class="cite">(Nicolis &amp; Prigogine, 1977; Friston, 2019; Chirumbolo &amp; Vella, 2024)</span>.
+              </p>
+              <p>
+                From Prigogine, systems are organized into non‑equilibrium steady state (NESS) via the continuous
+                flow of energy through them<span class="cite"> (Prigogine, 1977; Schrödinger, 1944)</span>. Once the
+                energy source is removed, the dissipative structure collapses into thermodynamic equilibrium with its
+                environment.
+              </p>
+              <p>
+                From Friston, systems maintain their Markov blanket — the separation between internal and external
+                states — by continuously acting to minimize surprisal. They do this by importing low entropy and
+                exporting high entropy. Systems that fail to maintain the Markov blanket dissolve into equilibrium
+                with their environment<span class="cite"> (Friston, 2010, 2019; Friston et al., 2023)</span>. This
+                maintenance of the Markov blanket is what we refer to as self‑evidencing.
+              </p>
+
+              <p class="section-label">The Gap: From Principle to Mechanism</p>
+              <p>
+                While FEP provides a theoretical account, and NESS a descriptive one, the path from what to how has
+                historically been unclear. It remained to be seen, for instance, how a physical system composed only
+                of locally interacting components could cooperate to meet a global imperative.
+              </p>
+              <p>
+                The challenge is one of credit assignment: determining causal responsibility with enough precision to
+                steer the network toward a goal. This decomposes into spatial, temporal, and structural credit
+                assignment.
+              </p>
+              <ul>
+                <li><strong>Spatial</strong>: which parameter is responsible for error?</li>
+                <li><strong>Temporal</strong>: when did a parameter’s firing matter, given delayed feedback?</li>
+                <li><strong>Structural</strong>: which parameters should exist at all?</li>
+              </ul>
+              <p>
+                Classical deep learning deals well with spatial and temporal credit assignment via backpropagation and
+                BPTT. Structural credit assignment has largely been outsourced to architecture search and pruning
+                heuristics.
+              </p>
+
+              <div class="badge-row">
+                <span class="badge badge-accent">FEP ↔ NESS unification</span>
+                <span class="badge">Markov blankets</span>
+                <span class="badge">Spatial / temporal / structural credit assignment</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- AANS / Work -->
+          <article id="panel-work" class="panel" role="tabpanel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Autonomous Assembly of Neural Structure (AANS)</div>
+                <div class="panel-tagline">A dissipative implementation of the Free Energy Principle</div>
               </div>
               <span class="pill-tag">Active Project</span>
             </div>
             <div class="panel-body">
-              <p class="section-label">Summary</p>
+              <p class="section-label">Abstract</p>
               <p>
-                AANS is a <strong>constructive proof of the free energy principle</strong> implemented as a
-                <strong>dissipative neural system</strong>. Instead of relying on backpropagation and replay buffers,
-                the network <em>continuously</em> updates its structure and weights through interaction with its
-                environment.
+                By contrast to biological systems, deep learning operates on a fundamentally unphysical paradigm of
+                backpropagation, almost without exception. In this work I present a constructive proof that the Free
+                Energy Principle can be realized via exact local credit assignment in the form of a dissipative system
+                that minimizes variational free energy.
+              </p>
+              <p>
+                The primary contribution is a <strong>trophic field map</strong> that solves the problem of structural
+                credit assignment — which connections should even be present in the network. This mechanism is informed
+                by eligibility traces<span class="cite"> (Sutton, 1984, 1988)</span> and weight transport, although
+                the latter can be substituted with feedback alignment<span class="cite"> (Lillicrap et al.,
+                  2016)</span>.
+                This architecture unifies Prigogine’s dissipative systems with Friston’s variational free energy by
+                demonstrating they can be told as one story.
+              </p>
+
+              <p class="section-label">From Theory to Architecture</p>
+              <p>
+                Classical solutions to credit assignment require non‑local information and violate the physical
+                constraints of biological systems. Backpropagation requires symmetric feedback connections. BPTT
+                requires storing complete gradient trajectories<span class="cite"> (Werbos, 1990)</span>. Architecture
+                search requires global fitness signals or exhaustive enumeration. None of these mechanisms are
+                consistent
+                with local, online, and continual learning.
+              </p>
+              <p>
+                AANS differs by proposing a system that performs continuous, online learning without phased learning,
+                and introduces a trophic field model for exact, gradient‑based structural credit assignment that allows
+                the network architecture itself to be inferred as part of the free energy minimization process.
+              </p>
+
+              <p class="section-label">Empirical Behavior</p>
+              <p>
+                The resulting system behaves less like a static model and more like a physical process:
               </p>
               <ul>
-                <li>Online, lifelong, experiential learning with <strong>no catastrophic forgetting</strong>.</li>
-                <li>Sub‑50&nbsp;ms latency at full GPU saturation, <strong>no settling period</strong>.</li>
-                <li>Structural credit assignment with &gt;97% Pearson correlation vs eligibility propagation.</li>
-                <li>Lunar Lander in <strong>&lt; 30 episodes</strong> on average, no replay buffers or rollouts.</li>
+                <li>Lunar lander in <strong>&lt; 30 episodes</strong> on average, no replay buffers or rollouts.</li>
+                <li>&gt;97% Pearson correlation with eligibility propagation for structural credit assignment.</li>
+                <li>Online, lifelong, experiential learning with <strong>0% catastrophic forgetting</strong> in the
+                  tested regimes.</li>
+                <li>Sub‑50&nbsp;ms latency at full GPU saturation, with <strong>no settling period</strong>.</li>
               </ul>
-
-              <p class="section-label">Why it matters</p>
-              <p>
-                If AGI is not a chatbot, then its substrate needs to
-                <strong>learn continuously, under constraint, from experience</strong>.
-                AANS is a step toward that: one model instance, one lifetime, no retraining from scratch.
-              </p>
 
               <div class="badge-row">
                 <span class="badge badge-accent">Dissipative systems</span>
-                <span class="badge">Free energy principle</span>
-                <span class="badge">Continual learning</span>
-                <span class="badge">Active inference</span>
-                <span class="badge">CUDA / GPU‑native</span>
+                <span class="badge">Free Energy Principle</span>
+                <span class="badge">Structural credit assignment</span>
+                <span class="badge">Online / lifelong learning</span>
+                <span class="badge">CUDA‑native</span>
               </div>
-
-
 
               <p style="margin-top:0.7rem;">
                 <strong>Code</strong>:
                 <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure" target="_blank"
                   rel="noopener noreferrer">GitHub</a>
                 &nbsp;·&nbsp;
-                <strong>Article</strong>:
-                <a href="https://lnkd.in/gVtxKUTC" target="_blank" rel="noopener noreferrer">Overview &amp; results</a>
+                <strong>Overview</strong>:
+                <a href="https://lnkd.in/gVtxKUTC" target="_blank" rel="noopener noreferrer">Project write‑up</a>
               </p>
 
-              <hr class="divider" />
-
-              <p class="section-label">Previous &amp; adjacent work</p>
-              <p>
-                Beyond AANS, my work spans <strong>cloud ML infrastructure</strong> (AWS, GCP, Azure), custom
-                <strong>dashboards, parsers, engines</strong>, and experiments in treating intelligence as a
-                <strong>thermodynamic phenomenon</strong> rather than a narrowly defined model class.
-              </p>
+              <!-- TODO: if you want a small code sketch here, you can reintroduce a code-block. -->
             </div>
           </article>
 
-          <!-- Research Themes Panel -->
-          <article id="panel-themes" class="panel" role="tabpanel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title">Research Themes</div>
-                <div class="panel-tagline">Where the constraints are, and how to bend them</div>
-              </div>
-              <span class="pill-tag">Focus Areas</span>
-            </div>
-            <div class="panel-body">
-              <p><strong>Self‑Organizing Neural Architectures</strong></p>
-              <p>
-                Architectures that <strong>build and revise themselves</strong> through interaction,
-                borrowing from watershed formation, cellular metabolism, and atmospheric dynamics.
-              </p>
-
-              <p><strong>Silicon‑Native Intelligence</strong></p>
-              <p>
-                Treating CPUs/GPUs not as proxies for brains, but as a
-                <strong>different substrate with different affordances</strong>: high precision,
-                high power, global clocks, and vast memory. The goal is not a better brain, but a
-                <strong>different class of cognitive system</strong> that fully exploits silicon.
-              </p>
-
-              <p><strong>Abstraction, Compilers, and LLMs</strong></p>
-              <p>
-                Understanding large language models as the
-                <strong>next major compiler layer</strong>: tools that subsume rote skill while amplifying the
-                remaining scarce resource—<em>discernment</em>. LLMs are not the end of programming; they are the
-                latest abstraction over “how” so humans can spend more effort on “what” and “why.”
-              </p>
-
-              <p><strong>Thermodynamics of Learning</strong></p>
-              <p>
-                Viewing biological and artificial intelligence as <strong>dissipative structures</strong>:
-                entities that persist by consuming low entropy and exporting high entropy. From this lens, learning
-                becomes an energy‑driven process embedded in physical law, not just an optimization problem.
-              </p>
-
-              <div class="badge-row">
-                <span class="badge">Neuromorphic perspectives</span>
-                <span class="badge">AGI‑adjacent systems</span>
-                <span class="badge">Constraints‑first design</span>
-                <span class="badge">Entropy‑aware architectures</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Writing Panel -->
+          <!-- Writing & Essays -->
           <article id="panel-writing" class="panel" role="tabpanel">
             <div class="panel-header">
               <div>
                 <div class="panel-title">Writing &amp; Essays</div>
                 <div class="panel-tagline">Abstractions, entropy, and the future of intelligence</div>
               </div>
-              <span class="pill-tag">Selected Ideas</span>
+              <span class="pill-tag">Selected Themes</span>
             </div>
             <div class="panel-body">
-              <p><strong>LLMs as the Next Compiler</strong></p>
+              <p class="section-label">LLMs, Compilers, and Tools</p>
+              <p class="writing-item-title">Is the LLM Really the Next Compiler?</p>
               <p>
-                A historical and conceptual walk from punch cards → assemblers → compilers → virtual machines →
-                LLMs as the <strong>latest abstraction over “how”</strong>, freeing humans to focus on “what”
-                and “why.” Assemblers didn’t kill programming. Compilers didn’t kill programming.
-                LLMs won’t either—they just change which skills are scarce.
+                A walk from punch cards → assemblers → compilers → virtual machines → large language models,
+                framing LLMs as the latest abstraction over “how” we program rather than an end to programming.
+                Assemblers didn’t kill programming. Compilers didn’t kill programming. Interpreters didn’t kill
+                programming. LLMs subsume rote skill and widen the field of tooling options; they don’t erase
+                discernment.
               </p>
 
-              <p><strong>Silicon vs. Biology</strong></p>
+              <p class="section-label">Silicon vs. Biology</p>
               <p>
-                The brain is an <strong>energy‑efficient accident under constraint</strong>; silicon is a
-                <strong>high‑energy, high‑precision substrate</strong> that doesn’t share those constraints.
-                The future of AI is not “a better brain” but
-                <strong>an alien class of cognition</strong> exploiting speed, precision, and scale in ways biology
-                could never afford.
+                The biological brain developed under strict energy constraints. It is optimized for efficiency and
+                resilience to noise, not for raw throughput or precision. Silicon is not a better map of the
+                biological territory of intelligence — it is a <strong>different territory</strong> entirely: tensor
+                cores, CUDA, flash NAND, fibre interlinks, and a distributed grid producing unimaginable power.
+              </p>
+              <p>
+                The future of AI is not in building a more efficient brain, but in building something that is not a
+                brain at all: a computational entity that leverages speed, precision, and memory on a scale that
+                biology could never dream of, consuming energy on a commensurate scale. Silicon is the enabling
+                technology for a higher order of intelligence, not a teleological higher form.
               </p>
 
-              <p><strong>Internet v1 → v3</strong></p>
+              <p class="section-label">The Internet as a Dissipative System</p>
               <p>
-                A lament for the early, human‑scale internet of personal sites, Newgrounds, Neopets, and weird forums—
-                and an observation that today’s web is closer to a chain of ghost towns where
-                <strong>LLMs inhabit the empty storefronts</strong> left behind by people.
+                The early internet (v1) was a world of personal sites, Newgrounds, Neopets, and YTMND — just people
+                being people online. Internet v2 consolidated into a handful of platforms and traffic monopolies.
+                Internet v3 is closer to a country of ghost towns. The people left; the bots stayed. LLMs now occupy
+                the empty storefronts where humans used to live.
               </p>
 
-              <p><strong>Risk, AGI, and “If Anyone Builds It…”</strong></p>
+              <p class="section-label">Risk, AGI, and “If Anyone Builds It, Everyone Dies”</p>
               <p>
-                Reflections on AI risk framed as <strong>game theory plus human hubris</strong>, not science fiction.
-                From Stockfish vs. 8 billion humans to the atom, flight, and space travel, the pattern is the same:
-                “impossible” quietly becomes “inevitable” once the enabling technology appears.
+                AI risk is less about science fiction and more about game theory plus human hubris. If all
+                8&nbsp;billion people on Earth played chess against Stockfish, all 8&nbsp;billion would lose.
+                What experts once thought impossible for computers (chess, Go, Stratego, Dota) became trivial once the
+                enabling technology landed. “AI will never X” has a poor historical record.
               </p>
-
-              <p><strong>Quantum Measurement vs. Quantum Woo</strong></p>
               <p>
-                Clarifying that <strong>no physicist believes consciousness collapses the wavefunction</strong>;
-                the measurement problem is about formalizing what “measurement” even means in a theory,
-                not about human intent altering reality through vibes.
+                The control problem is fundamentally a math problem. You can’t fight what you don’t understand.
+                Humanity’s failure to properly grapple with climate change is a preview of what happens when
+                complicated physical processes meet limited collective cognition.
               </p>
 
               <p style="margin-top:0.7rem;">
-                A curated selection of essays will live here soon. For now:
+                Longer‑form work, drafts, and in‑progress arguments live here:
               </p>
               <div class="badge-row">
-                <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank"
-                  rel="noopener noreferrer">
-                  GitHub — projects &amp; experiments
-                </a>
                 <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid" target="_blank"
                   rel="noopener noreferrer">
-                  Substack — writing &amp; essays
+                  Substack — essays &amp; notes
                 </a>
-                <span class="badge">Long‑form essays (incoming)</span>
+                <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank"
+                  rel="noopener noreferrer">
+                  GitHub — experiments &amp; code
+                </a>
               </div>
             </div>
           </article>
 
-          <!-- Meta Panel -->
+          <!-- Meta / Philosophy of Work -->
           <article id="panel-meta" class="panel" role="tabpanel">
             <div class="panel-header">
               <div>
@@ -1048,37 +974,34 @@
               <span class="pill-tag">First Principles</span>
             </div>
             <div class="panel-body">
-              <p><strong>First Principles over Rote Memorization</strong></p>
+              <p class="section-label">First Principles Over Rote</p>
               <p>
-                If I can’t derive a result from scratch, I don’t claim to understand it.
-                This applies equally to calculus, CUDA kernels, and organizational dynamics.
+                I do not subscribe to rote memorization. As a calculus teacher once told me: if you can’t derive it
+                from scratch, you don’t know the material. This applies as much to CUDA kernels and cloud
+                architectures as it does to thermodynamics and inference.
               </p>
 
-              <p><strong>Depth × Breadth = Volume</strong></p>
+              <p class="section-label">Depth × Breadth = Volume</p>
               <p>
-                The most useful work comes from combining <strong>local depth</strong> with
-                <strong>global context</strong>. I try to maximize the volume under that curve rather than
-                specializing narrowly or generalizing shallowly.
+                I see every problem as a unique opportunity for a first principles solution, because no two problems
+                are alike and each deserves the full breadth of knowledge I can bring to bear. The most value is
+                brought to bear by maximizing the area under that curve, not by specializing deep or generalizing
+                wide alone.
               </p>
 
-              <p><strong>Tools as Abstractions, Not Identity</strong></p>
+              <p class="section-label">Tools as Abstractions, Not Identity</p>
               <p>
-                I’m not a “Java person” or a “Python person.” Tools are ephemeral; taste and
-                discernment are the actual skills. LLMs are simply the latest abstraction that frees humans from
-                rote work while making <strong>good judgment</strong> more valuable.
+                I am not a Java program. Sometimes I choose to write them, but that’s a tool choice, the same way
+                choosing a deque or a stack is a tool choice. The large language model subsumes the tools, but not
+                the use of them. The skill in programming is the correct use — taste and discernment — of the
+                correct tool.
               </p>
 
-              <p><strong>Entropy as a Design Constraint</strong></p>
+              <p class="section-label">Entropy as Constraint</p>
               <p>
-                Whether building cloud ML infrastructure or neuromorphic‑style systems, I aim for
-                minimal surface area exposed to entropy—a kind of <strong>no‑hair theorem for software</strong>.
-              </p>
-
-              <p><strong>Thermodynamic View of Systems</strong></p>
-              <p>
-                From economies to intelligence, I tend to see systems as
-                <strong>flows of energy and information</strong> under constraint: billionaires as singularities,
-                institutions as accretion disks, AI clusters as new kinds of stars.
+                Whether building ML infrastructure or neuromorphic‑style systems, I treat entropy as a design
+                constraint. Minimal surfaces, minimal hair. The fewer ways a system can fail, the longer it can stand
+                against the tide.
               </p>
 
               <div class="badge-row">
@@ -1087,6 +1010,8 @@
                 <span class="badge">Abstraction design</span>
                 <span class="badge">Entropy‑aware engineering</span>
               </div>
+
+              <!-- TODO: If you want a short note about the job market / AI & juniors, it could slot nicely here. -->
             </div>
           </article>
         </div>
@@ -1096,7 +1021,7 @@
 
   <footer>
     <div>© <span id="year"></span> Michael McCulloch — semanticallyinvalid.com</div>
-    <div>Built as a zero‑dependency, single‑page app. No supply chain attacks.</div>
+    <div>Zero‑dependency, single‑page app. No supply chain attacks.</div>
   </footer>
 
   <script>
@@ -1106,7 +1031,7 @@
 
       const routeDefault = 'overview';
       const routeToPanel = {
-        overview: 'panel-themes',
+        overview: 'panel-overview',
         work: 'panel-work',
         writing: 'panel-writing',
         meta: 'panel-meta'
@@ -1147,7 +1072,6 @@
         routeTo(location.hash);
       });
 
-      // click handlers for SPA routing (top nav + CTA)
       topNavItems.forEach(el => {
         el.addEventListener('click', () => {
           const route = el.getAttribute('data-route');
@@ -1163,17 +1087,6 @@
             if (route) {
               location.hash = route;
             }
-          }
-        });
-      });
-
-      const routeLinks = document.querySelectorAll('[data-route-link]');
-      routeLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          const route = link.getAttribute('data-route-link');
-          if (route) {
-            e.preventDefault();
-            location.hash = route;
           }
         });
       });
