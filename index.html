@@ -499,6 +499,15 @@
       color: var(--accent-deep);
     }
 
+    blockquote {
+      margin: var(--spacing-sm) 0;
+      padding-left: var(--spacing-md);
+      border-left: 3px solid var(--accent);
+      color: var(--fg-muted);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
     footer {
       max-width: 1200px;
       margin: var(--spacing-xl) auto var(--spacing-md);
@@ -535,7 +544,7 @@
           </div>
           <div class="brand-text">
             <div class="brand-name">Michael McCulloch</div>
-            <div class="brand-tagline">Systems, silicon & self-organizing intelligence</div>
+            <div class="brand-tagline">Systems, Silicon & Self-Organizing Intelligence</div>
           </div>
         </div>
         <nav class="app-nav" aria-label="Primary">
@@ -551,16 +560,16 @@
       <div class="app-shell">
         <!-- LEFT -->
         <section class="surface" aria-label="Profile Overview">
-          <div class="tagline">Semantic Intent / Silicon Substrate</div>
+          <div class="tagline">Natural Law / Silicon Substrate</div>
 
           <div class="name-row">
             <h1 class="name">Michael McCulloch</h1>
-            <span class="role-pill">Machine Learning & Neuromorphic Systems</span>
+            <span class="role-pill">Machine Learning & Physical Systems</span>
           </div>
 
           <p class="subtitle">
             I build self-organizing neural architectures that acquire structure through continuous online interaction
-            with their environment, without backpropagation.
+            with their environment.
           </p>
 
           <div class="meta-row">
@@ -602,7 +611,7 @@
               </a>
             </div>
           </div>
-
+          <!-- 
           <hr class="divider" />
 
           <p class="about-text">
@@ -619,7 +628,7 @@
             <div class="highlight-tag">Current Direction</div>
             <div>Online, lifelong learning systems that behave like <strong>physical processes</strong>—watersheds,
               cells, hurricanes—implemented on GPU.</div>
-          </div>
+          </div> -->
         </section>
 
         <!-- RIGHT -->
@@ -632,25 +641,30 @@
                   <div class="panel-title">Self-Organization as a Physical Principle</div>
                   <div class="panel-tagline">Prigogine, Friston, one story</div>
                 </div>
-                <span class="pill-tag">Research</span>
+                <!-- <span class="pill-tag">Research</span> -->
               </div>
               <div class="panel-body">
-                <p class="section-label">From Dissipative Systems to Free Energy</p>
-                <p>Hurricanes, cells, candle flames, stars, brains—all are Prigogine's dissipative systems. They
-                  maintain
-                  structure by exporting entropy. Friston frames this as minimizing surprisal. Both describe the same
-                  phenomenon: self-evidencing.</p>
+                <p class="section-label">From dissipation to form</p>
+                <p>A hurricane retains its structure by casting out the wind.<br>
+                  A living cell retains its structure by casting out heat.<br>
+                  A star retains its structure by casting out radiation.<br>
+                  A mind retains its structure by casting out surprise.
+                </p>
+                <p>From hurricanes to living cells to stars to brains, these are dissipative systems. They
+                  maintain structure by importing low entropy and exporting high entropy. Friston frames this as
+                  minimizing surprisal. Prigogine frames it as a force of nature. They are the same story.</p>
 
-                <p class="section-label">The Gap: Principle → Mechanism</p>
+                <!-- <p class="section-label">The Gap: Principle → Mechanism</p>
                 <p>Credit assignment. Spatial: which parameter? Temporal: when did it matter? Structural: which
                   parameters
                   should exist at all? Classical deep learning outsources structural credit to architecture search. AANS
-                  solves it locally.</p>
+                  solves it locally.</p> -->
 
                 <div class="badge-row">
-                  <span class="badge badge-accent">FEP ↔ NESS</span>
+                  <span class="badge badge-accent">Free Energy Principle</span>
+                  <span class="badge badge-accent">Non-Equilibrium Steady State</span>
                   <span class="badge">Markov blankets</span>
-                  <span class="badge">Structural credit</span>
+                  <span class="badge">Active Inference</span>
                 </div>
               </div>
             </article>
@@ -660,16 +674,18 @@
               <div class="panel-header">
                 <div>
                   <div class="panel-title">Autonomous Assembly of Neural Structure</div>
-                  <div class="panel-tagline">AANS: Dissipative FEP implementation</div>
+                  <div class="panel-tagline">AANS: Dissipation of Surprisal</div>
                 </div>
-                <span class="pill-tag">Active</span>
+                <!-- <span class="pill-tag">Active</span> -->
               </div>
               <div class="panel-body">
                 <p class="section-label">Abstract</p>
-                <p>A constructive proof that FEP can be realized via exact local credit assignment. The trophic field
-                  map
-                  solves structural credit assignment—determining which connections should exist—unifying Prigogine and
-                  Friston.</p>
+                <p>A constructive proof that the free energy principle can be realized via exact local credit assignment
+                  as a dissipative system over recurrent networks.</p>
+
+                <p class="section-label">Contribution</p>
+                <p>A trophic field map solves structural credit assignment by modeling surprise as food and the
+                  network as a food web.</p>
 
                 <p class="section-label">Results</p>
                 <ul>
@@ -681,9 +697,10 @@
 
                 <div class="badge-row">
                   <span class="badge badge-accent">Dissipative systems</span>
-                  <span class="badge">Free Energy Principle</span>
+                  <span class="badge badge-accent">Free Energy Principle</span>
                   <span class="badge">Online learning</span>
-                  <span class="badge">CUDA-native</span>
+                  <span class="badge">CUDA</span>
+                  <span class="badge">Triton</span>
                 </div>
 
                 <p style="margin-top: var(--spacing-sm);">
@@ -698,27 +715,32 @@
             <article id="panel-writing" class="panel">
               <div class="panel-header">
                 <div>
-                  <div class="panel-title">Writing & Essays</div>
-                  <div class="panel-tagline">Abstractions, entropy, intelligence</div>
+                  <div class="panel-title">Writing</div>
+                  <div class="panel-tagline">One eye on the future, one eye on the past.</div>
                 </div>
-                <span class="pill-tag">Selected</span>
               </div>
               <div class="panel-body">
-                <p class="section-label">LLMs as Compilers</p>
-                <p>Assemblers didn't kill programming. Compilers didn't kill programming. LLMs won't either—they
-                  subsume
-                  rote skill and widen the field of tooling. The skill becomes discernment, not memorization.</p>
+                <p class="section-label">Both hands on the present.</p>
+                <blockquote>The only thing we learn from history is that we learn nothing from history.</blockquote>
+                - Georg Hegel
+                <blockquote>History Doesn't Repeat Itself, but It Often Rhymes.</blockquote>- Mark Twain
+                <blockquote>Prediction is very difficult, especially about the future.</blockquote>- Niels Bohr
 
-                <p class="section-label">Silicon vs Biology</p>
-                <p>The brain is optimized for 10W efficiency. Silicon is a different territory: tensor cores, CUDA,
-                  grid
-                  power. AGI will be alien—high-energy, high-precision, statistical immensity. Not a better brain; not a
-                  brain at all.</p>
+                <p class="section-label">Un-disorientation</p>
+                <p>It is easy to get lost in the present if you don't pay attention to how you got there and where you
+                  are going. Reality is fundamentally constraint-driven, usually in the form of energy constraints. The
+                  history of technology is one of a dialogue between the human ideal and the practical reality, and of
+                  taking sides.</p>
 
-                <p class="section-label">Internet as Ghost Town</p>
-                <p>v1: people being people. v2: five websites. v3: bots in empty storefronts. The internet became a
-                  dissipative system exporting human attention, importing LLM content.</p>
 
+                <p class="section-label">Artificial General Intelligence</p>
+                <p>The history of biological intelligence is one of energy scarcity and environmental pressures,
+                  together driving a hyper-efficient instantiation of the nature of learning: the human brain. </p>
+
+                <p>These constraints simply do not apply to machine intelligences, as they know nothing of energy
+                  scarcity. AGI will therefore be a gluttonous behemoth of mathematical precision, powered by a robust,
+                  distributed grid.
+                </p>
                 <div class="badge-row">
                   <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid"
                     target="_blank">Substack</a>
@@ -734,28 +756,27 @@
                   <div class="panel-title">Meta</div>
                   <div class="panel-tagline">How I think about work</div>
                 </div>
-                <span class="pill-tag">Principles</span>
               </div>
               <div class="panel-body">
                 <p class="section-label">First Principles</p>
-                <p>If you can't derive it from scratch, you don't know it. Applies to CUDA, thermodynamics, and cloud
-                  architectures.</p>
+                <p>Deriving it from scratch is so much easier than memorizing each output. So do that.</p>
 
                 <p class="section-label">Depth × Breadth = Volume</p>
-                <p>Maximize the area under the curve. Every problem deserves the full scope of knowledge, not just deep
-                  specialization or shallow generalism.</p>
+                <p>The Pareto optimum is on a curve somewhere between specialization and generalization. Maximize the
+                  area under that
+                  curve. Every problem deserves the brunt of what we can bring to bear.</p>
 
                 <p class="section-label">Tools ≠ Identity</p>
-                <p>I am not a Java program. LLMs subsume tools but not their use. The skill is discernment—choosing the
-                  right tool for the constraint.</p>
+                <p>I am not a Java program, but I have been known to write them. There is no ultimate tool, only the
+                  best one for the job at hand.</p>
 
                 <p class="section-label">Entropy as Constraint</p>
                 <p>Minimal surfaces, minimal hair. The fewer ways a system can fail, the longer it stands.</p>
 
                 <div class="badge-row">
-                  <span class="badge">First-principles</span>
-                  <span class="badge">Systems thinking</span>
-                  <span class="badge">Entropy-aware</span>
+                  <span class="badge">1st principles</span>
+                  <span class="badge">Systems</span>
+                  <span class="badge">Entropy</span>
                 </div>
               </div>
             </article>
