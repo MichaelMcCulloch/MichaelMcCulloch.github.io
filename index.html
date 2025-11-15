@@ -391,6 +391,17 @@
       transform: translateY(-1px);
     }
 
+    .chip-link.chip-accent {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+    }
+
+    .chip-link.chip-accent:hover {
+      background: var(--accent);
+      color: white;
+    }
+
     .chip-link svg {
       width: 16px;
       height: 16px;
@@ -618,9 +629,11 @@
 
           <div class="contact-section">
             <div class="contact-label">Contact</div>
-            <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
-              michael.mcculloch@semanticallyinvalid.com
-            </a>
+            <div class="link-row">
+              <a class="chip-link chip-accent" href="https://forms.gle/6dgcvnaR75mcbEadA" target="_blank">
+                Contact Me
+              </a>
+            </div>
           </div>
 
           <div class="contact-section">
@@ -793,7 +806,7 @@
               </div>
               <div class="panel-body">
                 <p class="section-label">First Principles</p>
-                <p>Deriving it from scratch is so much easier than memorizing each output. So do that.</p>
+                <p>Deriving it from scratch is easier than memorizing each output. So do that.</p>
 
                 <p class="section-label">Depth × Breadth = Volume</p>
                 <p>The Pareto optimum is on a curve somewhere between specialization and generalization. Maximize the
