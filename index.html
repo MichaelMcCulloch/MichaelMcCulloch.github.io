@@ -9,6 +9,39 @@
     content="First-principles ML engineer building dissipative, lifelong learning systems. Cloud by day, silicon-native intelligence by night." />
   <link rel="icon" type="image/png" href="face128x128.png" />
   <style>
+    /* Inter font faces */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('fonts/inter-v13-latin-regular.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('fonts/inter-v13-latin-500.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('fonts/inter-v13-latin-600.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('fonts/inter-v13-latin-700.woff2') format('woff2');
+    }
+
     :root {
       --bg: #ffffff;
       --bg-elevated: #fafafa;
@@ -24,7 +57,7 @@
       --code-bg: #f5f5f7;
       --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
 
-      --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 
       --spacing-xs: 0.5rem;
@@ -689,9 +722,9 @@
 
                 <p class="section-label">Results</p>
                 <ul>
-                  <li>Lunar lander in <strong>&lt;30 episodes</strong>, no replay buffers</li>
+                  <li>Lunar lander in 30 episodes, no replay buffers</li>
                   <li>&gt;97% Pearson correlation with eligibility propagation</li>
-                  <li><strong>0% catastrophic forgetting</strong> in tested regimes</li>
+                  <li>0% catastrophic forgetting in tested regimes</li>
                   <li>Sub-50ms latency at full GPU saturation</li>
                 </ul>
 
