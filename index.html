@@ -9,37 +9,29 @@
     content="First‑principles ML engineer building dissipative, lifelong learning systems. Cloud by day, silicon-native intelligence by night." />
   <style>
     :root {
-      /* Apple meets Art Gallery: Light, breathing, precise */
       --bg: #ffffff;
       --bg-elevated: #fafafa;
       --fg: #1d1d1f;
       --fg-muted: #86868b;
 
-      /* Blues: Sophisticated, not neon */
       --accent: #0071e3;
       --accent-soft: rgba(0, 113, 227, 0.08);
       --accent-deep: #0044cc;
-
-      /* Mad scientist spark */
       --accent-warm: #f56300;
 
-      /* Borders & Shadows: Whisper, not shout */
       --border-subtle: rgba(0, 0, 0, 0.06);
       --code-bg: #f5f5f7;
       --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
 
-      /* Typography: Apple's precision */
       --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
       --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 
-      /* Spacing: Gallery breathing room */
       --spacing-xs: 0.5rem;
       --spacing-sm: 1rem;
       --spacing-md: 1.5rem;
       --spacing-lg: 2.5rem;
       --spacing-xl: 4rem;
 
-      /* Motion: Smooth, deliberate */
       --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       --transition-med: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       --transition-slow: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -59,6 +51,8 @@
       -webkit-font-smoothing: antialiased;
       scroll-behavior: smooth;
       line-height: 1.5;
+      width: 100%;
+      height: 100%;
     }
 
     body {
@@ -66,6 +60,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 3D background canvas */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 0;
+    }
+
+    /* Blur / glass overlay over 3D */
+    .bg-blur-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.5), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.5), transparent 60%);
+      opacity: 0.9;
     }
 
     a {
@@ -76,6 +96,13 @@
 
     a:hover {
       color: var(--accent-deep);
+    }
+
+    /* Content sits above everything */
+    .app-root {
+      position: relative;
+      z-index: 2;
+      width: 100%;
     }
 
     main {
@@ -91,13 +118,13 @@
       }
     }
 
-    /* Header: Floating, translucent, Apple-like */
+    /* Header */
     .app-header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 3;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
       background: rgba(255, 255, 255, 0.85);
       border-bottom: 1px solid var(--border-subtle);
       width: 100%;
@@ -132,22 +159,13 @@
       overflow: hidden;
       position: relative;
       border: 1px solid var(--border-subtle);
+      flex-shrink: 0;
     }
 
     .brand-initials img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    @keyframes shimmer {
-      0% {
-        transform: translateX(-100%) translateY(-100%) rotate(30deg);
-      }
-
-      100% {
-        transform: translateX(100%) translateY(100%) rotate(30deg);
-      }
     }
 
     .brand-text {
@@ -167,7 +185,6 @@
       color: var(--fg-muted);
     }
 
-    /* Navigation: Minimal pills */
     .app-nav {
       display: flex;
       gap: 0.5rem;
@@ -196,7 +213,7 @@
       border-color: var(--accent);
     }
 
-    /* Main Layout: Gallery grid */
+    /* Layout */
     .app-shell {
       margin-top: var(--spacing-lg);
       display: grid;
@@ -212,7 +229,7 @@
     }
 
     .surface {
-      background: var(--bg-elevated);
+      background: rgba(250, 250, 250, 0.92);
       border-radius: 18px;
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-soft);
@@ -227,7 +244,6 @@
       }
     }
 
-    /* Left Panel: Identity */
     .tagline {
       font-size: 0.75rem;
       letter-spacing: 0.15em;
@@ -374,7 +390,6 @@
       margin-bottom: 0.5rem;
     }
 
-    /* Right Panel: Content */
     .panel-stack {
       display: grid;
       gap: var(--spacing-sm);
@@ -383,7 +398,7 @@
     .panel {
       border-radius: 14px;
       border: 1px solid var(--border-subtle);
-      background: var(--bg);
+      background: rgba(255, 255, 255, 0.9);
       padding: var(--spacing-md);
       display: none;
       opacity: 0;
@@ -477,7 +492,6 @@
       color: var(--accent-deep);
     }
 
-    /* Footer: Minimal, principled */
     footer {
       max-width: 1200px;
       margin: var(--spacing-xl) auto var(--spacing-md);
@@ -488,6 +502,8 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: var(--spacing-xs);
+      position: relative;
+      z-index: 2;
     }
 
     @media (max-width: 600px) {
@@ -499,232 +515,246 @@
 </head>
 
 <body>
-  <header class="app-header">
-    <div class="app-header-inner">
-      <div class="brand-block">
-        <div class="brand-initials">
-          <img src="face128x128.png" alt="Michael McCulloch">
+  <!-- 3D Lorenz background -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="bg-blur-layer" aria-hidden="true"></div>
+
+  <div class="app-root">
+    <header class="app-header">
+      <div class="app-header-inner">
+        <div class="brand-block">
+          <div class="brand-initials">
+            <img src="face128x128.png" alt="Michael McCulloch">
+          </div>
+          <div class="brand-text">
+            <div class="brand-name">Michael McCulloch</div>
+            <div class="brand-tagline">Systems, silicon & self‑organizing intelligence</div>
+          </div>
         </div>
-        <div class="brand-text">
-          <div class="brand-name">Michael McCulloch</div>
-          <div class="brand-tagline">Systems, silicon & self‑organizing intelligence</div>
-        </div>
+        <nav class="app-nav" aria-label="Primary">
+          <button class="nav-item active" data-route="overview">Overview</button>
+          <button class="nav-item" data-route="work">AANS</button>
+          <button class="nav-item" data-route="writing">Writing</button>
+          <button class="nav-item" data-route="meta">Meta</button>
+        </nav>
       </div>
-      <nav class="app-nav" aria-label="Primary">
-        <button class="nav-item active" data-route="overview">Overview</button>
-        <button class="nav-item" data-route="work">AANS</button>
-        <button class="nav-item" data-route="writing">Writing</button>
-        <button class="nav-item" data-route="meta">Meta</button>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <div class="app-shell">
-      <!-- LEFT: Identity -->
-      <section class="surface" aria-label="Profile Overview">
-        <div class="tagline">Semantic Intent / Silicon Substrate</div>
+    <main>
+      <div class="app-shell">
+        <!-- LEFT -->
+        <section class="surface" aria-label="Profile Overview">
+          <div class="tagline">Semantic Intent / Silicon Substrate</div>
 
-        <div class="name-row">
-          <h1 class="name">Michael McCulloch</h1>
-          <span class="role-pill">Machine Learning & Neuromorphic Systems</span>
-        </div>
-
-        <p class="subtitle">
-          I build <strong>dissipative, self‑organizing neural architectures</strong> that learn online without
-          backpropagation—systems that acquire structure through continuous interaction, not offline training.
-        </p>
-
-        <div class="meta-row">
-          <div>
-            <div class="meta-label">Affiliation</div>
-            <div class="meta-value">deepsense.ai — Researcher</div>
+          <div class="name-row">
+            <h1 class="name">Michael McCulloch</h1>
+            <span class="role-pill">Machine Learning & Neuromorphic Systems</span>
           </div>
-          <div>
-            <div class="meta-label">Focus</div>
-            <div class="meta-value">Free Energy Principle, dissipative systems, structural credit</div>
+
+          <p class="subtitle">
+            I build <strong>dissipative, self‑organizing neural architectures</strong> that learn online without
+            backpropagation—systems that acquire structure through continuous interaction, not offline training.
+          </p>
+
+          <div class="meta-row">
+            <div>
+              <div class="meta-label">Affiliation</div>
+              <div class="meta-value">deepsense.ai — Researcher</div>
+            </div>
+            <div>
+              <div class="meta-label">Focus</div>
+              <div class="meta-value">Free Energy Principle, dissipative systems, structural credit</div>
+            </div>
           </div>
-        </div>
 
-        <div class="contact-section">
-          <div class="contact-label">Contact</div>
-          <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
-            michael.mcculloch@semanticallyinvalid.com
-          </a>
-        </div>
-
-        <div class="contact-section">
-          <div class="contact-label">Profiles</div>
-          <div class="link-row">
-            <a class="chip-link" href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a>
-            <a class="chip-link" href="https://www.linkedin.com/in/michael-mcculloch/" target="_blank">LinkedIn</a>
-            <a class="chip-link" href="https://substack.com/@semanticallyinvalid" target="_blank">Substack</a>
-            <a class="chip-link" href="https://orcid.org/0009-0008-9234-7189" target="_blank">ORCID</a>
+          <div class="contact-section">
+            <div class="contact-label">Contact</div>
+            <a class="email-link" href="mailto:michael.mcculloch@semanticallyinvalid.com">
+              michael.mcculloch@semanticallyinvalid.com
+            </a>
           </div>
-        </div>
 
-        <hr class="divider" />
-
-        <p class="about-text">
-          <strong>Day:</strong> Cloud ML Engineer. I build systems to outlast human error—minimal surfaces against
-          entropy.
-        </p>
-
-        <p class="about-text">
-          <strong>Night:</strong> I copy nature's homework: derive natural law in silicon, bestow biochemistry's tricks
-          upon CUDA.
-        </p>
-
-        <div class="highlight-block">
-          <div class="highlight-tag">Current Direction</div>
-          <div>Online, lifelong learning systems that behave like <strong>physical processes</strong>—watersheds, cells,
-            hurricanes—implemented on GPU.</div>
-        </div>
-      </section>
-
-      <!-- RIGHT: Content -->
-      <section class="surface" aria-label="Content Navigator">
-        <div class="panel-stack">
-          <!-- Overview -->
-          <article id="panel-overview" class="panel active">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title">Self‑Organization as a Physical Principle</div>
-                <div class="panel-tagline">Prigogine, Friston, one story</div>
-              </div>
-              <span class="pill-tag">Research</span>
+          <div class="contact-section">
+            <div class="contact-label">Profiles</div>
+            <div class="link-row">
+              <a class="chip-link" href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a>
+              <a class="chip-link" href="https://www.linkedin.com/in/michael-mcculloch/" target="_blank">LinkedIn</a>
+              <a class="chip-link" href="https://substack.com/@semanticallyinvalid" target="_blank">Substack</a>
+              <a class="chip-link" href="https://orcid.org/0009-0008-9234-7189" target="_blank">ORCID</a>
             </div>
-            <div class="panel-body">
-              <p class="section-label">From Dissipative Systems to Free Energy</p>
-              <p>Hurricanes, cells, candle flames, stars, brains—all are Prigogine's dissipative systems. They maintain
-                structure by exporting entropy. Friston frames this as minimizing surprisal. Both describe the same
-                phenomenon: self‑evidencing.</p>
+          </div>
 
-              <p class="section-label">The Gap: Principle → Mechanism</p>
-              <p>Credit assignment. Spatial: which parameter? Temporal: when did it matter? Structural: which parameters
-                should exist at all? Classical deep learning outsources structural credit to architecture search. AANS
-                solves it locally.</p>
+          <hr class="divider" />
 
-              <div class="badge-row">
-                <span class="badge badge-accent">FEP ↔ NESS</span>
-                <span class="badge">Markov blankets</span>
-                <span class="badge">Structural credit</span>
+          <p class="about-text">
+            <strong>Day:</strong> Cloud ML Engineer. I build systems to outlast human error—minimal surfaces against
+            entropy.
+          </p>
+
+          <p class="about-text">
+            <strong>Night:</strong> I copy nature's homework: derive natural law in silicon, bestow biochemistry's
+            tricks upon CUDA.
+          </p>
+
+          <div class="highlight-block">
+            <div class="highlight-tag">Current Direction</div>
+            <div>Online, lifelong learning systems that behave like <strong>physical processes</strong>—watersheds,
+              cells, hurricanes—implemented on GPU.</div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="surface" aria-label="Content Navigator">
+          <div class="panel-stack">
+            <!-- Overview -->
+            <article id="panel-overview" class="panel active">
+              <div class="panel-header">
+                <div>
+                  <div class="panel-title">Self‑Organization as a Physical Principle</div>
+                  <div class="panel-tagline">Prigogine, Friston, one story</div>
+                </div>
+                <span class="pill-tag">Research</span>
               </div>
-            </div>
-          </article>
+              <div class="panel-body">
+                <p class="section-label">From Dissipative Systems to Free Energy</p>
+                <p>Hurricanes, cells, candle flames, stars, brains—all are Prigogine's dissipative systems. They
+                  maintain
+                  structure by exporting entropy. Friston frames this as minimizing surprisal. Both describe the same
+                  phenomenon: self‑evidencing.</p>
 
-          <!-- Work -->
-          <article id="panel-work" class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title">Autonomous Assembly of Neural Structure</div>
-                <div class="panel-tagline">AANS: Dissipative FEP implementation</div>
+                <p class="section-label">The Gap: Principle → Mechanism</p>
+                <p>Credit assignment. Spatial: which parameter? Temporal: when did it matter? Structural: which
+                  parameters
+                  should exist at all? Classical deep learning outsources structural credit to architecture search. AANS
+                  solves it locally.</p>
+
+                <div class="badge-row">
+                  <span class="badge badge-accent">FEP ↔ NESS</span>
+                  <span class="badge">Markov blankets</span>
+                  <span class="badge">Structural credit</span>
+                </div>
               </div>
-              <span class="pill-tag">Active</span>
-            </div>
-            <div class="panel-body">
-              <p class="section-label">Abstract</p>
-              <p>A constructive proof that FEP can be realized via exact local credit assignment. The trophic field map
-                solves structural credit assignment—determining which connections should exist—unifying Prigogine and
-                Friston.</p>
+            </article>
 
-              <p class="section-label">Results</p>
-              <ul>
-                <li>Lunar lander in <strong>&lt;30 episodes</strong>, no replay buffers</li>
-                <li>&gt;97% Pearson correlation with eligibility propagation</li>
-                <li><strong>0% catastrophic forgetting</strong> in tested regimes</li>
-                <li>Sub‑50ms latency at full GPU saturation</li>
-              </ul>
-
-              <div class="badge-row">
-                <span class="badge badge-accent">Dissipative systems</span>
-                <span class="badge">Free Energy Principle</span>
-                <span class="badge">Online learning</span>
-                <span class="badge">CUDA-native</span>
+            <!-- Work -->
+            <article id="panel-work" class="panel">
+              <div class="panel-header">
+                <div>
+                  <div class="panel-title">Autonomous Assembly of Neural Structure</div>
+                  <div class="panel-tagline">AANS: Dissipative FEP implementation</div>
+                </div>
+                <span class="pill-tag">Active</span>
               </div>
+              <div class="panel-body">
+                <p class="section-label">Abstract</p>
+                <p>A constructive proof that FEP can be realized via exact local credit assignment. The trophic field
+                  map
+                  solves structural credit assignment—determining which connections should exist—unifying Prigogine and
+                  Friston.</p>
 
-              <p style="margin-top: var(--spacing-sm);">
-                <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure"
-                  target="_blank">Code</a> ·
-                <a href="https://lnkd.in/gVtxKUTC" target="_blank">Write‑up</a>
-              </p>
-            </div>
-          </article>
+                <p class="section-label">Results</p>
+                <ul>
+                  <li>Lunar lander in <strong>&lt;30 episodes</strong>, no replay buffers</li>
+                  <li>&gt;97% Pearson correlation with eligibility propagation</li>
+                  <li><strong>0% catastrophic forgetting</strong> in tested regimes</li>
+                  <li>Sub‑50ms latency at full GPU saturation</li>
+                </ul>
 
-          <!-- Writing -->
-          <article id="panel-writing" class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title">Writing & Essays</div>
-                <div class="panel-tagline">Abstractions, entropy, intelligence</div>
+                <div class="badge-row">
+                  <span class="badge badge-accent">Dissipative systems</span>
+                  <span class="badge">Free Energy Principle</span>
+                  <span class="badge">Online learning</span>
+                  <span class="badge">CUDA-native</span>
+                </div>
+
+                <p style="margin-top: var(--spacing-sm);">
+                  <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure"
+                    target="_blank">Code</a> ·
+                  <a href="https://lnkd.in/gVtxKUTC" target="_blank">Write‑up</a>
+                </p>
               </div>
-              <span class="pill-tag">Selected</span>
-            </div>
-            <div class="panel-body">
-              <p class="section-label">LLMs as Compilers</p>
-              <p>Assemblers didn't kill programming. Compilers didn't kill programming. LLMs won't either—they subsume
-                rote skill and widen the field of tooling. The skill becomes discernment, not memorization.</p>
+            </article>
 
-              <p class="section-label">Silicon vs Biology</p>
-              <p>The brain is optimized for 10W efficiency. Silicon is a different territory: tensor cores, CUDA, grid
-                power. AGI will be alien—high-energy, high-precision, statistical immensity. Not a better brain; not a
-                brain at all.</p>
-
-              <p class="section-label">Internet as Ghost Town</p>
-              <p>v1: people being people. v2: five websites. v3: bots in empty storefronts. The internet became a
-                dissipative system exporting human attention, importing LLM content.</p>
-
-              <div class="badge-row">
-                <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid"
-                  target="_blank">Substack</a>
-                <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a>
+            <!-- Writing -->
+            <article id="panel-writing" class="panel">
+              <div class="panel-header">
+                <div>
+                  <div class="panel-title">Writing & Essays</div>
+                  <div class="panel-tagline">Abstractions, entropy, intelligence</div>
+                </div>
+                <span class="pill-tag">Selected</span>
               </div>
-            </div>
-          </article>
+              <div class="panel-body">
+                <p class="section-label">LLMs as Compilers</p>
+                <p>Assemblers didn't kill programming. Compilers didn't kill programming. LLMs won't either—they
+                  subsume
+                  rote skill and widen the field of tooling. The skill becomes discernment, not memorization.</p>
 
-          <!-- Meta -->
-          <article id="panel-meta" class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title">Meta</div>
-                <div class="panel-tagline">How I think about work</div>
+                <p class="section-label">Silicon vs Biology</p>
+                <p>The brain is optimized for 10W efficiency. Silicon is a different territory: tensor cores, CUDA,
+                  grid
+                  power. AGI will be alien—high-energy, high-precision, statistical immensity. Not a better brain; not a
+                  brain at all.</p>
+
+                <p class="section-label">Internet as Ghost Town</p>
+                <p>v1: people being people. v2: five websites. v3: bots in empty storefronts. The internet became a
+                  dissipative system exporting human attention, importing LLM content.</p>
+
+                <div class="badge-row">
+                  <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid"
+                    target="_blank">Substack</a>
+                  <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a>
+                </div>
               </div>
-              <span class="pill-tag">Principles</span>
-            </div>
-            <div class="panel-body">
-              <p class="section-label">First Principles</p>
-              <p>If you can't derive it from scratch, you don't know it. Applies to CUDA, thermodynamics, and cloud
-                architectures.</p>
+            </article>
 
-              <p class="section-label">Depth × Breadth = Volume</p>
-              <p>Maximize the area under the curve. Every problem deserves the full scope of knowledge, not just deep
-                specialization or shallow generalism.</p>
-
-              <p class="section-label">Tools ≠ Identity</p>
-              <p>I am not a Java program. LLMs subsume tools but not their use. The skill is discernment—choosing the
-                right tool for the constraint.</p>
-
-              <p class="section-label">Entropy as Constraint</p>
-              <p>Minimal surfaces, minimal hair. The fewer ways a system can fail, the longer it stands.</p>
-
-              <div class="badge-row">
-                <span class="badge">First‑principles</span>
-                <span class="badge">Systems thinking</span>
-                <span class="badge">Entropy‑aware</span>
+            <!-- Meta -->
+            <article id="panel-meta" class="panel">
+              <div class="panel-header">
+                <div>
+                  <div class="panel-title">Meta</div>
+                  <div class="panel-tagline">How I think about work</div>
+                </div>
+                <span class="pill-tag">Principles</span>
               </div>
-            </div>
-          </article>
-        </div>
-      </section>
-    </div>
-  </main>
+              <div class="panel-body">
+                <p class="section-label">First Principles</p>
+                <p>If you can't derive it from scratch, you don't know it. Applies to CUDA, thermodynamics, and cloud
+                  architectures.</p>
 
-  <footer>
-    <div>© <span id="year"></span> Michael McCulloch — semanticallyinvalid.com</div>
-    <div>Zero‑dependency. No supply chain attacks.</div>
-  </footer>
+                <p class="section-label">Depth × Breadth = Volume</p>
+                <p>Maximize the area under the curve. Every problem deserves the full scope of knowledge, not just deep
+                  specialization or shallow generalism.</p>
 
+                <p class="section-label">Tools ≠ Identity</p>
+                <p>I am not a Java program. LLMs subsume tools but not their use. The skill is discernment—choosing the
+                  right tool for the constraint.</p>
+
+                <p class="section-label">Entropy as Constraint</p>
+                <p>Minimal surfaces, minimal hair. The fewer ways a system can fail, the longer it stands.</p>
+
+                <div class="badge-row">
+                  <span class="badge">First‑principles</span>
+                  <span class="badge">Systems thinking</span>
+                  <span class="badge">Entropy‑aware</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> Michael McCulloch — semanticallyinvalid.com</div>
+      <div>Zero‑dependency. No supply chain attacks.</div>
+    </footer>
+  </div>
+
+  <!-- three.js UMD from local file -->
+  <script src="three.umd.min.js"></script>
   <script>
+    // SPA routing
     (function () {
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -752,9 +782,124 @@
       }
 
       window.addEventListener('hashchange', () => routeTo(location.hash));
-      topNavItems.forEach(el => el.addEventListener('click', () => location.hash = el.dataset.route));
+      topNavItems.forEach(el => el.addEventListener('click', () => (location.hash = el.dataset.route)));
 
       routeTo(location.hash);
+    })();
+
+    // Lorenz attractor background using three.js (non-module build)
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true
+      });
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+      const scene = new THREE.Scene();
+
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 60);
+
+      // Soft ambient light
+      const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambient);
+
+      // Lorenz parameters: chaotic, vibrant
+      const sigma = 10;
+      const rho = 28;
+      const beta = 8 / 3;
+
+      const dt = 0.005;
+      let x = 0.1, y = 0, z = 0;
+      const maxPoints = 5000;
+
+      const positions = new Float32Array(maxPoints * 3);
+      let index = 0;
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const material = new THREE.LineBasicMaterial({
+        color: 0x0071e3,
+        linewidth: 2,
+        transparent: true,
+        opacity: 0.9
+      });
+
+      const lorenzLine = new THREE.Line(geometry, material);
+      scene.add(lorenzLine);
+
+      // Subtle color shifting over time
+      let hue = 210; // start in blue
+      function updateColor() {
+        hue = (hue + 0.1) % 360;
+        const color = new THREE.Color("hsl(" + hue + ", 90%, 60%)");
+        lorenzLine.material.color = color;
+      }
+
+      // Integrate Lorenz system
+      function stepLorenz() {
+        const dx = sigma * (y - x);
+        const dy = x * (rho - z) - y;
+        const dz = x * y - beta * z;
+
+        x += dx * dt;
+        y += dy * dt;
+        z += dz * dt;
+
+        positions[index * 3 + 0] = x * 0.5;
+        positions[index * 3 + 1] = y * 0.5;
+        positions[index * 3 + 2] = z * 0.5;
+
+        index++;
+        if (index >= maxPoints) {
+          // Shift points to create continuous, trailing effect
+          for (let i = 0; i < (maxPoints - 1) * 3; i++) {
+            positions[i] = positions[i + 3];
+          }
+          index = maxPoints - 1;
+        }
+
+        geometry.setDrawRange(0, index);
+        geometry.attributes.position.needsUpdate = true;
+      }
+
+      // Resize handler
+      function onResize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', onResize);
+      onResize();
+
+      let t = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Multiple small steps per frame for smooth curves
+        for (let i = 0; i < 10; i++) stepLorenz();
+
+        // Slow orbit, give a sense of depth
+        t += 0.0015;
+        const radius = 65;
+        camera.position.x = Math.cos(t) * radius;
+        camera.position.z = Math.sin(t) * radius;
+        camera.position.y = Math.sin(t * 0.7) * 10;
+        camera.lookAt(0, 0, 0);
+
+        updateColor();
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
     })();
   </script>
 </body>
