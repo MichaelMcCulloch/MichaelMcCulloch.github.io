@@ -8,67 +8,36 @@
   <meta name="description"
     content="First-principles ML engineer building dissipative, lifelong learning systems. Cloud by day, silicon-native intelligence by night." />
   <link rel="icon" type="image/png" href="face128x128.png" />
+  <!-- Fonts: Inter for that clean, 'institutional' authority -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Inter font faces */
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('fonts/inter-v13-latin-regular.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-display: swap;
-      src: url('fonts/inter-v13-latin-500.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 600;
-      font-display: swap;
-      src: url('fonts/inter-v13-latin-600.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 700;
-      font-display: swap;
-      src: url('fonts/inter-v13-latin-700.woff2') format('woff2');
-    }
-
     :root {
+      /* The Palette: Clinical White + Electric Silicon Blue */
       --bg: #ffffff;
       --bg-elevated: #fafafa;
-      --fg: #1d1d1f;
-      --fg-muted: #86868b;
+      --fg: #111111;
+      --fg-muted: #666666;
 
-      --accent: #0071e3;
-      --accent-soft: rgba(0, 113, 227, 0.08);
-      --accent-deep: #0044cc;
-      --accent-warm: #f56300;
+      --accent: #0055FF;
+      /* "Hyper-competence" Blue */
+      --accent-soft: rgba(0, 85, 255, 0.06);
+      --accent-deep: #003399;
 
-      --border-subtle: rgba(0, 0, 0, 0.06);
-      --code-bg: #f5f5f7;
-      --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --code-bg: #f4f4f5;
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.04);
 
-      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", monospace;
 
-      --spacing-xs: 0.5rem;
       --spacing-sm: 1rem;
       --spacing-md: 1.5rem;
-      --spacing-lg: 2.5rem;
-      --spacing-xl: 4rem;
+      --spacing-lg: 3rem;
 
-      --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --transition-med: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --transition-slow: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     * {
@@ -77,939 +46,630 @@
       padding: 0;
     }
 
-    html,
     body {
       background: var(--bg);
       color: var(--fg);
       font-family: var(--font-body);
-      -webkit-font-smoothing: antialiased;
-      scroll-behavior: smooth;
-      line-height: 1.5;
-      width: 100%;
-      height: 100%;
-    }
-
-    body {
+      line-height: 1.6;
+      overflow-x: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      position: relative;
-      overflow-x: hidden;
     }
 
-    /* 3D background canvas */
+    /* --- The Substrate (Background) --- */
     #bg-canvas {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
       z-index: 0;
+      opacity: 0.6;
+      /* Subtle math in the background */
     }
 
-    /* Blur / glass overlay over 3D */
-    .bg-blur-layer {
+    .bg-overlay {
       position: fixed;
       inset: 0;
       z-index: 1;
+      /* The "Glass" - separating the user from the raw math */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
       pointer-events: none;
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-      background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.5), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.5), transparent 60%);
-      opacity: 0.9;
+    }
+
+    /* --- The Interface --- */
+    .app-root {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--spacing-md);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+
+    @media (min-width: 900px) {
+      .app-root {
+        grid-template-columns: 350px 1fr;
+        padding-top: 5vh;
+      }
+
+      .sticky-col {
+        position: sticky;
+        top: 5vh;
+        height: fit-content;
+      }
+    }
+
+    /* --- Typography & Components --- */
+    h1,
+    h2,
+    h3 {
+      letter-spacing: -0.03em;
+      line-height: 1.1;
     }
 
     a {
       color: var(--accent);
       text-decoration: none;
-      transition: all var(--transition-fast);
+      font-weight: 500;
+      transition: var(--transition);
     }
 
     a:hover {
       color: var(--accent-deep);
     }
 
-    /* Content sits above everything */
-    .app-root {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    main {
-      width: 100%;
-      max-width: 1200px;
-      padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xl);
-      margin: 0 auto;
-    }
-
-    @media (min-width: 880px) {
-      main {
-        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xl);
-      }
-    }
-
-    /* Header */
-    .app-header {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
-      background: rgba(255, 255, 255, 0.85);
-      border-bottom: 1px solid var(--border-subtle);
-      width: 100%;
-    }
-
-    .app-header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: var(--spacing-xs) var(--spacing-sm);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--spacing-sm);
-    }
-
-    @media (min-width: 880px) {
-      .app-header-inner {
-        padding: var(--spacing-xs) var(--spacing-lg);
-      }
-    }
-
-    .brand-block {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-xs);
-    }
-
-    .brand-initials {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
+    .surface {
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid var(--border-subtle);
-      flex-shrink: 0;
+      border-radius: 16px;
+      padding: var(--spacing-md);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px);
     }
 
-    .brand-initials img {
+    /* Left Column: The Avatar */
+    .profile-header {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: var(--code-bg);
+      margin-bottom: var(--spacing-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 0.125rem;
-    }
-
-    .brand-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-tagline {
-      font-size: 0.75rem;
-      color: var(--fg-muted);
-    }
-
-    .app-nav {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .nav-item {
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-elevated);
-      color: var(--fg-muted);
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .nav-item:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .nav-item.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    /* Layout */
-    .app-shell {
-      margin-top: var(--spacing-lg);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-lg);
-      align-items: start;
-    }
-
-    @media (max-width: 879px) {
-      .app-shell {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .surface {
-      background: rgba(250, 250, 250, 0.92);
-      border-radius: 18px;
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: var(--spacing-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    @media (min-width: 880px) {
-      .surface {
-        padding: var(--spacing-lg);
-      }
-    }
-
-    .tagline {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--fg-muted);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .name-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-xs);
-    }
-
     .name {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
-
-    .role-pill {
-      font-size: 0.75rem;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      background: var(--accent-soft);
-      color: var(--accent-deep);
-      font-weight: 500;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--fg-muted);
-      margin-bottom: var(--spacing-md);
-      max-width: 45rem;
-    }
-
-    .subtitle strong {
-      color: var(--fg);
-      font-weight: 600;
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-md);
-      font-size: 0.9rem;
-    }
-
-    .meta-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--fg-muted);
-    }
-
-    .meta-value {
-      color: var(--fg);
-    }
-
-    .contact-section {
-      margin-bottom: var(--spacing-md);
-    }
-
-    .contact-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--fg-muted);
       margin-bottom: 0.25rem;
     }
 
-    .email-link {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 8px;
-      background: var(--code-bg);
-      border: 1px solid var(--border-subtle);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .link-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .chip-link {
-      font-size: 0.8rem;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg);
+    .role {
+      font-size: 0.9rem;
       color: var(--fg-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all var(--transition-fast);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .chip-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-1px);
-    }
-
-    .chip-link.chip-accent {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      color: var(--accent-deep);
-    }
-
-    .chip-link.chip-accent:hover {
-      background: var(--accent);
-      color: white;
-    }
-
-    .chip-link svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border-subtle);
-      margin: var(--spacing-md) 0;
-    }
-
-    .about-text {
+    .bio {
+      margin-top: var(--spacing-sm);
       font-size: 1rem;
-      color: var(--fg);
-      margin-bottom: var(--spacing-sm);
+      color: var(--fg-muted);
     }
 
-    .about-text strong {
+    .bio strong {
+      color: var(--fg);
       font-weight: 600;
     }
 
-    .highlight-block {
-      border-radius: 12px;
-      border: 1px solid rgba(0, 113, 227, 0.2);
-      background: linear-gradient(135deg, var(--accent-soft), transparent);
-      padding: var(--spacing-sm);
-      margin-top: var(--spacing-sm);
+    .meta-list {
+      margin-top: var(--spacing-md);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    .highlight-tag {
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: var(--spacing-md);
+      padding: 0.75rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px var(--accent-soft);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-deep);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .btn-small {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      background: var(--code-bg);
+      color: var(--fg);
+      border: 1px solid var(--border-subtle);
+      font-weight: 500;
+    }
+
+    .btn-small:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Navigation Pills */
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: var(--spacing-md);
+      overflow-x: auto;
+      padding-bottom: 4px;
+      /* scrollbar spacing */
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--fg-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      color: var(--fg);
+      background: var(--bg-elevated);
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 2px 10px var(--accent-soft);
+    }
+
+    /* Right Column: The Knowledge */
+    .content-panel {
+      display: none;
+      animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .content-panel.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
       font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent-deep);
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: var(--spacing-sm);
+      font-weight: 700;
+    }
+
+    .card {
+      margin-bottom: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-h {
+      font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
     }
 
-    .panel-stack {
-      display: grid;
-      gap: var(--spacing-sm);
-    }
-
-    .panel {
-      border-radius: 14px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.9);
-      padding: var(--spacing-md);
-      display: none;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all var(--transition-med);
-    }
-
-    .panel.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .panel-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--fg);
-    }
-
-    .panel-tagline {
-      font-size: 0.85rem;
+    .card-p {
+      font-size: 1rem;
       color: var(--fg-muted);
-    }
-
-    .pill-tag {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 20px;
-      background: var(--code-bg);
-      border: 1px solid var(--border-subtle);
-      color: var(--fg-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 500;
-    }
-
-    .panel-body {
-      font-size: 0.95rem;
-      color: var(--fg);
-    }
-
-    .panel-body p {
-      margin: 0.5rem 0;
-    }
-
-    .panel-body ul {
-      margin: 0.5rem 0 0.5rem 1.5rem;
-    }
-
-    .panel-body li {
-      margin-bottom: 0.25rem;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent-warm);
-      font-weight: 600;
-      margin-top: var(--spacing-sm);
-      margin-bottom: 0.25rem;
-    }
-
-    .text-left {
-      text-align: left;
-    }
-
-    .text-justify {
+      margin-bottom: 1rem;
       text-align: justify;
     }
 
-    .badge-row {
+    .tag-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-top: var(--spacing-sm);
+      margin-top: 1rem;
     }
 
-    .badge {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 20px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-elevated);
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: var(--code-bg);
       color: var(--fg-muted);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
     }
 
-    .badge-accent {
-      border-color: var(--accent);
+    .tag.accent {
       background: var(--accent-soft);
       color: var(--accent-deep);
     }
 
-    blockquote {
-      margin: var(--spacing-sm) 0;
-      padding-left: var(--spacing-md);
-      border-left: 3px solid var(--accent);
-      color: var(--fg-muted);
-      font-style: italic;
-      font-size: 0.95rem;
-    }
-
-    footer {
-      max-width: 1200px;
-      width: 100%;
-      margin-top: auto;
-      padding: var(--spacing-md) var(--spacing-sm);
-      color: var(--fg-muted);
-      font-size: 0.75rem;
+    .links-row {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--spacing-xs);
-      position: relative;
-      z-index: 2;
+      gap: 0.5rem;
+      margin-top: 1rem;
     }
 
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: var(--fg);
+    }
+
+    /* Footer */
+    .app-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center;
+      padding: var(--spacing-md);
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      opacity: 0.7;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Mobile fixes */
     @media (max-width: 600px) {
-      footer {
-        flex-direction: column;
+      .name {
+        font-size: 1.75rem;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- 3D Lorenz background -->
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
-  <div class="bg-blur-layer" aria-hidden="true"></div>
+
+  <!-- 3D Background: The Lorenz Attractor (Chaos/Order) -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-overlay"></div>
 
   <div class="app-root">
-    <header class="app-header">
-      <div class="app-header-inner">
-        <div class="brand-block">
-          <div class="brand-initials">
-            <img src="face128x128.png" alt="Michael McCulloch">
+
+    <!-- LEFT COLUMN: The Avatar -->
+    <aside class="sticky-col">
+      <div class="surface">
+        <div class="profile-header">
+          <div class="avatar">
+            <!-- Placeholder for face128x128.png -->
+            <img src="face128x128.png" alt="M. McCulloch" onerror="this.style.display='none'">
           </div>
-          <div class="brand-text">
-            <div class="brand-name">Michael McCulloch</div>
-            <div class="brand-tagline">Systems, Silicon & Self-Organizing Intelligence</div>
+          <h1 class="name">Michael McCulloch</h1>
+          <div class="role">Architect of Systems</div>
+        </div>
+
+        <p class="bio">
+          <strong>I do not build chatbots.</strong><br><br>
+          I engineer dissipative, lifelong learning systems from first principles.
+          <br><br>
+          The world is an optimization problem suffering from entropy. I write the code to fix the drift.
+        </p>
+
+        <div class="meta-list">
+          <div class="meta-item">
+            <span style="font-family: var(--font-mono); font-size: 0.75rem;">STATUS:</span>
+            <span>Minimizing Surprisal</span>
+          </div>
+          <div class="meta-item">
+            <a href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a> &bull;
+            <a href="https://substack.com/@semanticallyinvalid" target="_blank">Substack</a> &bull;
+            <a href="https://www.linkedin.com/in/michael-mcculloch/" target="_blank">LinkedIn</a>
           </div>
         </div>
-        <nav class="app-nav" aria-label="Primary">
-          <button class="nav-item active" data-route="overview">Overview</button>
-          <button class="nav-item" data-route="work">AANS</button>
-          <button class="nav-item" data-route="writing">Writing</button>
-          <button class="nav-item" data-route="meta">Meta</button>
-        </nav>
+
+        <!-- Contact Interface -->
+        <a href="https://forms.gle/6dgcvnaR75mcbEadA" target="_blank" class="btn-primary">
+          Contact
+        </a>
+
       </div>
-    </header>
+    </aside>
 
-    <main>
-      <div class="app-shell">
-        <!-- LEFT -->
-        <section class="surface" aria-label="Profile Overview">
-          <div class="tagline">Natural Law / Silicon Substrate</div>
+    <!-- RIGHT COLUMN: The Data Stream -->
+    <main class="surface">
 
-          <div class="name-row">
-            <h1 class="name">Michael McCulloch</h1>
-            <span class="role-pill">Machine Learning & Physical Systems</span>
-          </div>
+      <nav class="nav">
+        <button class="nav-btn active" onclick="switchTab('overview')">Overview</button>
+        <button class="nav-btn" onclick="switchTab('work')">Engineering</button>
+        <button class="nav-btn" onclick="switchTab('philosophy')">The Stack</button>
+        <button class="nav-btn" onclick="switchTab('meta')">Meta</button>
+      </nav>
 
-          <p class="subtitle">
-            I build self-organizing neural architectures that acquire structure through continuous online interaction
-            with their environment.
+      <!-- TAB: OVERVIEW -->
+      <div id="overview" class="content-panel active">
+        <div class="section-title">The Thesis</div>
+
+        <div class="card">
+          <h2 class="card-h">Natural Law / Silicon Substrate</h2>
+          <p class="card-p">
+            A hurricane retains its structure by casting out wind. A living cell retains its structure by casting out
+            heat.
+            Intelligence is no different. It is a dissipative structure that maintains order by casting out
+            <em>surprise</em>.
           </p>
-
-          <div class="meta-row">
-            <div>
-              <div class="meta-label">Affiliation</div>
-              <div class="meta-value">deepsense.ai — Cloud ML Engineer</div>
-            </div>
-            <div>
-              <div class="meta-label">Focus</div>
-              <div class="meta-value">Free Energy Principle, dissipative systems, structural credit</div>
-            </div>
+          <p class="card-p">
+            We are currently witnessing the migration of this principle from the biological substrate (10 watts, high
+            noise)
+            to the silicon substrate (Gigawatts, mathematical precision). This is not a choice; it is a thermodynamic
+            inevitability.
+          </p>
+          <div class="tag-row">
+            <span class="tag accent">Prigogine</span>
+            <span class="tag accent">Friston</span>
+            <span class="tag">Thermodynamics</span>
           </div>
+        </div>
 
-          <div class="contact-section">
-            <div class="contact-label">Contact</div>
-            <div class="link-row">
-              <a class="chip-link chip-accent" href="https://forms.gle/6dgcvnaR75mcbEadA" target="_blank">
-                Contact Me
-              </a>
-            </div>
-          </div>
-
-          <div class="contact-section">
-            <div class="contact-label">Profiles</div>
-            <div class="link-row">
-              <a class="chip-link" href="https://github.com/MichaelMcCulloch" target="_blank">
-                <img src="github_icon.svg" alt="" style="width: 16px; height: 16px;">
-                GitHub
-              </a>
-              <a class="chip-link" href="https://www.linkedin.com/in/michael-mcculloch/" target="_blank">
-                <img src="LinkedIn_icon.svg" alt="" style="width: 16px; height: 16px;">
-                LinkedIn
-              </a>
-              <a class="chip-link" href="https://substack.com/@semanticallyinvalid" target="_blank">
-                <img src="substack-icon.svg" alt="" style="width: 16px; height: 16px;">
-                Substack
-              </a>
-              <a class="chip-link" href="https://orcid.org/0009-0008-9234-7189" target="_blank">
-                <img src="ORCID_iD.svg" alt="" style="width: 16px; height: 16px;">
-                ORCID
-              </a>
-            </div>
-          </div>
-
-        </section>
-
-        <!-- RIGHT -->
-        <section class="surface" aria-label="Content Navigator">
-          <div class="panel-stack">
-            <!-- Overview -->
-            <article id="panel-overview" class="panel active">
-              <div class="panel-header">
-                <div>
-                  <div class="panel-title">Self-Organization as a Physical Principle</div>
-                  <div class="panel-tagline">Prigogine, Friston, one story</div>
-                </div>
-                <!-- <span class="pill-tag">Research</span> -->
-              </div>
-              <div class="panel-body">
-                <p class="section-label">From dissipation to form</p>
-                <p class="text-left">A hurricane retains its structure by casting out the wind.<br>
-                  A living cell retains its structure by casting out heat.<br>
-                  A star retains its structure by casting out radiation.<br>
-                  A mind retains its structure by casting out surprise.
-                </p>
-                <p class="text-justify">From hurricanes to living cells to stars to brains, these are dissipative
-                  systems. They
-                  maintain structure by importing low entropy and exporting high entropy. Friston frames this as
-                  minimizing surprisal. Prigogine frames it as a force of nature. They are the same story.</p>
-                <p class="section-label">Active Inference</p>
-                <p class="text-justify">You are a story your mind tells itself to avoid being
-                  surprised.</p>
-
-
-                <div class="badge-row">
-                  <span class="badge badge-accent">Free Energy Principle</span>
-                  <span class="badge badge-accent">Non-Equilibrium Steady State</span>
-                  <span class="badge">Markov blankets</span>
-                  <span class="badge">Active Inference</span>
-                </div>
-              </div>
-            </article>
-
-            <!-- Work -->
-            <article id="panel-work" class="panel">
-              <div class="panel-header">
-                <div>
-                  <div class="panel-title">Autonomous Assembly of Neural Structure</div>
-                  <div class="panel-tagline">A Theory Of Learning</div>
-                </div>
-                <!-- <span class="pill-tag">Active</span> -->
-              </div>
-              <div class="panel-body">
-                <p class="section-label">Abstract</p>
-                <p class="text-justify">A constructive proof that the free energy principle can be realized via exact
-                  local credit assignment
-                  as a dissipative system over recurrent networks.</p>
-
-                <p class="section-label">Contribution</p>
-                <p class="text-justify">A trophic field map solves structural credit assignment by modeling surprise
-                  as food and the
-                  network as a food web.</p>
-
-                <p class="section-label">Results</p>
-                <ul>
-                  <li>Lunar lander in 30 episodes, no replay buffers</li>
-                  <li>&gt;97% Pearson correlation with eligibility propagation</li>
-                  <li>0% catastrophic forgetting in tested regimes</li>
-                  <li>Sub-50ms latency at full GPU saturation</li>
-                </ul>
-
-                <div class="badge-row">
-                  <span class="badge badge-accent">Dissipative systems</span>
-                  <span class="badge badge-accent">Free Energy Principle</span>
-                  <span class="badge">Online learning</span>
-                  <span class="badge">CUDA</span>
-                  <span class="badge">Triton</span>
-                </div>
-
-                <p style="margin-top: var(--spacing-sm);">
-                  <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure"
-                    target="_blank">Code</a> ·
-                  <a href="https://arxiv.org/abs/2510.17916" target="_blank">Write-up</a>
-                </p>
-              </div>
-            </article>
-
-            <!-- Writing -->
-            <article id="panel-writing" class="panel">
-              <div class="panel-header">
-                <div>
-                  <div class="panel-title">Writing</div>
-                  <div class="panel-tagline">One eye on the future, one eye on the past.</div>
-                </div>
-              </div>
-              <div class="panel-body">
-                <p class="section-label">Both hands on the present.</p>
-                <blockquote>The only thing we learn from history is that we learn nothing from history.</blockquote>
-                - Georg Hegel
-                <blockquote>History Doesn't Repeat Itself, but It Often Rhymes.</blockquote>- Mark Twain
-                <blockquote>Prediction is very difficult, especially about the future.</blockquote>- Niels Bohr
-
-                <p class="section-label">Un-disorientation</p>
-                <p class="text-justify">It is easy to get lost in the present if you don't pay attention to how you
-                  got there and where you
-                  are going. Reality is fundamentally constraint-driven, usually in the form of energy constraints. The
-                  history of technology is one of a dialogue between the human ideal and the practical reality, and of
-                  taking sides.</p>
-
-
-                <p class="section-label">Artificial General Intelligence</p>
-                <p class="text-justify">The history of biological intelligence is one of energy scarcity and
-                  environmental pressures,
-                  together driving a hyper-efficient instantiation of the nature of learning: the human brain. </p>
-
-                <p class="text-justify">These constraints simply do not apply to machine intelligences, as they know
-                  nothing of energy
-                  scarcity. AGI will therefore be a gluttonous behemoth of mathematical precision, powered by a robust,
-                  distributed grid.
-                </p>
-                <div class="badge-row">
-                  <a class="badge badge-accent" href="https://substack.com/@semanticallyinvalid"
-                    target="_blank">Substack</a>
-                  <a class="badge badge-accent" href="https://github.com/MichaelMcCulloch" target="_blank">GitHub</a>
-                  <span class="badge">AI Slop-Free</span>
-                </div>
-              </div>
-            </article>
-
-            <!-- Meta -->
-            <article id="panel-meta" class="panel">
-              <div class="panel-header">
-                <div>
-                  <div class="panel-title">Meta</div>
-                  <div class="panel-tagline">How I think about work</div>
-                </div>
-              </div>
-              <div class="panel-body">
-                <p class="section-label">First Principles</p>
-                <p class="text-justify">Deriving it from scratch is easier than memorizing each output. So do that.
-                </p>
-
-                <p class="section-label">Depth × Breadth = Volume</p>
-                <p class="text-justify">The Pareto optimum is on a curve somewhere between specialization and
-                  generalization. Maximize the area under that curve. Every problem deserves the brunt of what we can
-                  bring to bear.</p>
-
-                <p class="section-label">Tools ≠ Identity</p>
-                <p class="text-justify">I am not a Java program, but I have been known to write them. There is no
-                  ultimate tool, only the best one for the job at hand.</p>
-
-                <p class="section-label">Entropy as Constraint</p>
-                <p class="text-justify">The statistical regularities in the environment can be coerced in our favor.
-                  Decay is the natural state; don't just count on it, exploit it.
-                </p>
-
-                <p class="section-label">Constraint as Engine</p>
-                <p class="text-justify">If we know which constraints can be relaxed, we can find previously invisible
-                  solutions. </p>
-
-                <p class="section-label">The Wheel of progress is ancient</p>
-                <p class="text-justify">Natural law has operated under thermodynamic constraints since before there
-                  was life on this planet.
-                  We can reuse its discoveries in our grids, our software and our infrastructure. </p>
-
-                <p class="section-label">The Scientific Method</p>
-                <p class="text-justify">Reality is messy. The most efficient method for deriving truth is to be
-                  gloriously wrong, and then
-                  to find out why.
-                </p>
-
-                <p class="section-label">Infer to Explanation</p>
-                <p class="text-justify">Guess -> Falsify -> Abduct -> Repeat.<br>Follow the clues where they lead,
-                  jump to conclusions, lead with falsification and operate under the assumption of incomplete data. That
-                  can be an engine.</p>
-
-                <div class="badge-row">
-                  <span class="badge">1st principles</span>
-                  <span class="badge">Systems</span>
-                  <span class="badge">Entropy</span>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
+        <div class="card">
+          <h2 class="card-h">The Current State</h2>
+          <p class="card-p">
+            Our institutions are suffering from high entropy. The "how" (rote labor) is being subsumed by the machine.
+            The "what" (discernment, taste, architecture) remains the domain of the human.
+            <strong>I operate strictly in the domain of the "what."</strong>
+          </p>
+        </div>
       </div>
-    </main>
 
-    <footer>
-      <div>© <span id="year"></span> Michael McCulloch — semanticallyinvalid.com</div>
-    </footer>
+      <!-- TAB: ENGINEERING -->
+      <div id="work" class="content-panel">
+        <div class="section-title">Proof of Work</div>
+
+        <div class="card">
+          <h2 class="card-h">Autonomous Assembly of Neural Structure</h2>
+          <p class="card-p">
+            A constructive proof that the Free Energy Principle can be realized via exact local credit assignment.
+            This is not a theoretical model; it is a dissipative system running on CUDA.
+          </p>
+          <ul>
+            <li class="card-p" style="margin-bottom: 0.5rem;">Lunar Lander solved in < 30 episodes (no replay
+                buffers).</li>
+            <li class="card-p" style="margin-bottom: 0.5rem;">0% Catastrophic Forgetting.</li>
+            <li class="card-p" style="margin-bottom: 0.5rem;">Sub-50ms latency at full GPU saturation.</li>
+          </ul>
+
+          <div class="links-row">
+            <a href="https://arxiv.org/abs/2510.17916" target="_blank" class="btn-small">
+              Read Paper (Arxiv)
+            </a>
+            <a href="https://github.com/MichaelMcCulloch/Autonomous-Assembly-of-Neural-Structure" target="_blank"
+              class="btn-small">
+              View Source (GitHub)
+            </a>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag accent">Systems Engineering</span>
+            <span class="tag">CUDA</span>
+            <span class="tag">Triton</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-h">Cloud Infrastructure</h2>
+          <p class="card-p">
+            By day, I build systems meant to withstand the tide of human error at <strong>deepsense.ai</strong>.
+            Ideally, these systems will outlast my natural life. In practice, it is a constant push and pull between me,
+            the server, and the forces of entropy.
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB: PHILOSOPHY -->
+      <div id="philosophy" class="content-panel">
+        <div class="section-title">Historical Inevitability</div>
+
+        <div class="card">
+          <h2 class="card-h">The Abstraction Stack</h2>
+          <p class="card-p">
+            Assembler subsumed opcodes. Compilers subsumed Assembler. Interpreters subsumed Compilers.
+            Now, LLMs are subsuming the rote generation of syntax.
+          </p>
+          <p class="card-p">
+            Nothing was lost. Sanity was gained. Those who decry the abstraction are merely mourning their own
+            obsolescence.
+            The Architect uses the new layer to build higher.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2 class="card-h">AGI is Not a Chatbot</h2>
+          <p class="card-p">
+            The story of AI will be one of mathematical exactness and statistical immensity bordering on the obscene.
+            It will not be a "better brain." It will be an alien form of cognition that does not scrape for energy.
+            Prometheus awaits.
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB: META -->
+      <div id="meta" class="content-panel">
+        <div class="section-title">Operating System</div>
+
+        <div class="card">
+          <h2 class="card-h">Derivation Over Memorization</h2>
+          <blockquote>"If you can't derive it from scratch, you don't know the material."</blockquote>
+          <p class="card-p">
+            I do not subscribe to rote memorization. I subscribe to first principles.
+            Every problem is a unique opportunity to apply the full breadth of physics and information theory.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2 class="card-h">Tools ≠ Identity</h2>
+          <p class="card-p">
+            I am not a Java program. I am not a PyTorch script. These are chisels.
+            The skill is not in the chisel, but in knowing where to place the cut.
+          </p>
+        </div>
+      </div>
+
+    </main>
   </div>
 
-  <!-- three.js UMD from local file -->
-  <script src="three.umd.min.js"></script>
+  <footer class="app-footer">
+    © <span id="year"></span> Michael McCulloch — semanticallyinvalid.com
+  </footer>
+
+  <!-- SCRIPT: Logic & Visuals -->
+  <!-- Use a CDN for Three.js since we are in a single file environment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
   <script>
-    // SPA routing
-    (function () {
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    // Set Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-      const routeDefault = 'overview';
-      const routeToPanel = {
-        overview: 'panel-overview',
-        work: 'panel-work',
-        writing: 'panel-writing',
-        meta: 'panel-meta'
-      };
+    // --- TAB SWITCHING LOGIC ---
+    function switchTab(tabId) {
+      // Hide all panels
+      document.querySelectorAll('.content-panel').forEach(el => el.classList.remove('active'));
+      // Show target panel
+      document.getElementById(tabId).classList.add('active');
 
-      const panelEls = document.querySelectorAll('.panel');
-      const topNavItems = document.querySelectorAll('.nav-item');
+      // Update buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
 
-      function activatePanel(panelId, routeName) {
-        panelEls.forEach(panel => panel.classList.toggle('active', panel.id === panelId));
-        topNavItems.forEach(item => item.classList.toggle('active', item.dataset.route === routeName));
-      }
-
-      function routeTo(hash) {
-        const routeName = (hash || `#${routeDefault}`).replace('#', '').trim() || routeDefault;
-        const panelId = routeToPanel[routeName];
-        if (panelId) activatePanel(panelId, routeName);
-      }
-
-      window.addEventListener('hashchange', () => routeTo(location.hash));
-      topNavItems.forEach(el => el.addEventListener('click', () => (location.hash = el.dataset.route)));
-
-      routeTo(location.hash);
-    })();
-
-    // Lorenz attractor background using three.js (non-module build)
-    (function () {
+    // --- LORENZ ATTRACTOR VISUALIZATION ---
+    // This represents the "Controlled Chaos" of the persona
+    const initVisuals = () => {
       const canvas = document.getElementById('bg-canvas');
-      if (!canvas || typeof THREE === 'undefined') return;
-
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true
-      });
-      renderer.setPixelRatio(window.devicePixelRatio || 1);
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
       const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 80;
 
-      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 0, 100);
-
-      // Soft ambient light
-      const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-      scene.add(ambient);
-
-      // Lorenz parameters: chaotic, vibrant
-      const sigma = 10;
-      const rho = 28;
-      const beta = 8 / 3;
-
-      const dt = 0.005;
+      // Lorenz Parameters
       let x = 0.1, y = 0, z = 0;
-      const maxPoints = 8000;
+      const sigma = 10, rho = 28, beta = 8 / 3;
+      const dt = 0.008;
 
-      const positions = new Float32Array(maxPoints * 3);
-      let index = 0;
-
+      // Geometry for the trail
+      const maxPoints = 4000;
       const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(maxPoints * 3);
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-      const material = new THREE.LineBasicMaterial({
-        color: 0x0071e3,
-        linewidth: 3,
-        transparent: true,
-        opacity: 0.95
-      });
+      // Material: Electric Blue
+      const material = new THREE.LineBasicMaterial({ color: 0x0055FF, linewidth: 2 });
+      const line = new THREE.Line(geometry, material);
+      scene.add(line);
 
-      const lorenzLine = new THREE.Line(geometry, material);
-      lorenzLine.scale.set(2.5, 2.5, 2.5); // Make it MUCH bigger
-      scene.add(lorenzLine);
+      let count = 0;
 
-      // Subtle color shifting over time
-      let hue = 210; // start in blue
-      function updateColor() {
-        hue = (hue + 0.15) % 360;
-        const color = new THREE.Color("hsl(" + hue + ", 90%, 55%)");
-        lorenzLine.material.color = color;
-      }
-
-      // Integrate Lorenz system
-      function stepLorenz() {
-        const dx = sigma * (y - x);
-        const dy = x * (rho - z) - y;
-        const dz = x * y - beta * z;
-
-        x += dx * dt;
-        y += dy * dt;
-        z += dz * dt;
-
-        positions[index * 3 + 0] = x;
-        positions[index * 3 + 1] = y;
-        positions[index * 3 + 2] = z;
-
-        index++;
-        if (index >= maxPoints) {
-          // Shift points to create continuous, trailing effect
-          for (let i = 0; i < (maxPoints - 1) * 3; i++) {
-            positions[i] = positions[i + 3];
-          }
-          index = maxPoints - 1;
-        }
-
-        geometry.setDrawRange(0, index);
-        geometry.attributes.position.needsUpdate = true;
-      }
-
-      // Resize handler
-      function onResize() {
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      }
-      window.addEventListener('resize', onResize);
-      onResize();
-
-      let t = 0;
       function animate() {
         requestAnimationFrame(animate);
 
-        // Multiple small steps per frame for smooth curves
-        for (let i = 0; i < 10; i++) stepLorenz();
+        // Calculate Lorenz Step
+        const dx = sigma * (y - x) * dt;
+        const dy = (x * (rho - z) - y) * dt;
+        const dz = (x * y - beta * z) * dt;
+        x += dx; y += dy; z += dz;
 
-        // Slow orbit, give a sense of depth
-        t += 0.001;
-        const radius = 110;
-        camera.position.x = Math.cos(t) * radius;
-        camera.position.z = Math.sin(t) * radius;
-        camera.position.y = Math.sin(t * 0.5) * 15;
-        camera.lookAt(0, 0, 0);
+        // Shift array buffer
+        for (let i = maxPoints - 1; i > 0; i--) {
+          positions[i * 3] = positions[(i - 1) * 3];
+          positions[i * 3 + 1] = positions[(i - 1) * 3 + 1];
+          positions[i * 3 + 2] = positions[(i - 1) * 3 + 2];
+        }
 
-        updateColor();
+        // Add new point
+        positions[0] = x;
+        positions[1] = y;
+        positions[2] = z;
+
+        geometry.attributes.position.needsUpdate = true;
+
+        // Slow rotation of the entire system (The "View from Above")
+        line.rotation.z += 0.001;
+        line.rotation.y += 0.002;
 
         renderer.render(scene, camera);
       }
 
       animate();
-    })();
+
+      // Handle Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    };
+
+    // Initialize if Three.js is loaded
+    if (typeof THREE !== 'undefined') {
+      initVisuals();
+    } else {
+      console.log("Three.js not loaded - Visuals disabled.");
+    }
   </script>
 </body>
 
