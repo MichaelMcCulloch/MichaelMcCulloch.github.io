@@ -8,21 +8,22 @@
   <meta name="description"
     content="First-principles ML engineer building dissipative, lifelong learning systems. Cloud by day, silicon-native intelligence by night." />
   <link rel="icon" type="image/png" href="face128x128.png" />
-  <!-- Fonts: Inter for that clean, 'institutional' authority -->
+
+  <!-- Fonts: Inter (From B) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* The Palette: Clinical White + Electric Silicon Blue */
+      /* Palette from B (Foreground Scheme) */
       --bg: #ffffff;
+      /* Fallback */
       --bg-elevated: #fafafa;
       --fg: #111111;
       --fg-muted: #666666;
 
       --accent: #0055FF;
-      /* "Hyper-competence" Blue */
       --accent-soft: rgba(0, 85, 255, 0.06);
       --accent-deep: #003399;
 
@@ -57,30 +58,35 @@
       flex-direction: column;
     }
 
-    /* --- The Substrate (Background) --- */
+    /* --- BACKGROUND FROM A (The 3D Canvas + Blur) --- */
     #bg-canvas {
       position: fixed;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
       z-index: 0;
-      opacity: 0.6;
-      /* Subtle math in the background */
     }
 
-    .bg-overlay {
+    /* Blur / glass overlay over 3D (From A) */
+    .bg-blur-layer {
       position: fixed;
       inset: 0;
       z-index: 1;
-      /* The "Glass" - separating the user from the raw math */
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
       pointer-events: none;
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.5), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.5), transparent 60%);
+      opacity: 0.9;
     }
 
-    /* --- The Interface --- */
+    /* --- FOREGROUND FROM B (The Interface) --- */
     .app-root {
       position: relative;
       z-index: 2;
+      /* Sits above A's blur layer */
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
@@ -103,7 +109,7 @@
       }
     }
 
-    /* --- Typography & Components --- */
+    /* Typography & Components from B */
     h1,
     h2,
     h3 {
@@ -128,7 +134,8 @@
       border-radius: 16px;
       padding: var(--spacing-md);
       box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(20px);
+      /* Extra backdrop blur to make text readable over A's chaos */
+      backdrop-filter: blur(10px);
     }
 
     /* Left Column: The Avatar */
@@ -239,7 +246,6 @@
       margin-bottom: var(--spacing-md);
       overflow-x: auto;
       padding-bottom: 4px;
-      /* scrollbar spacing */
     }
 
     .nav-btn {
@@ -373,7 +379,6 @@
       border-top: 1px solid var(--border-subtle);
     }
 
-    /* Mobile fixes */
     @media (max-width: 600px) {
       .name {
         font-size: 1.75rem;
@@ -384,10 +389,11 @@
 
 <body>
 
-  <!-- 3D Background: The Lorenz Attractor (Chaos/Order) -->
-  <canvas id="bg-canvas"></canvas>
-  <div class="bg-overlay"></div>
+  <!-- BACKGROUND ELEMENTS FROM A -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="bg-blur-layer" aria-hidden="true"></div>
 
+  <!-- FOREGROUND LAYOUT FROM B -->
   <div class="app-root">
 
     <!-- LEFT COLUMN: The Avatar -->
@@ -421,7 +427,6 @@
           </div>
         </div>
 
-        <!-- Contact Interface -->
         <a href="https://forms.gle/6dgcvnaR75mcbEadA" target="_blank" class="btn-primary">
           Contact
         </a>
@@ -574,15 +579,16 @@
     © <span id="year"></span> Michael McCulloch — semanticallyinvalid.com
   </footer>
 
-  <!-- SCRIPT: Logic & Visuals -->
-  <!-- Use a CDN for Three.js since we are in a single file environment -->
+  <!-- Scripts -->
+  <!-- Using CDN for Three.js to ensure portability, but applying Logic from A -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script>
-    // Set Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // --- FOREGROUND LOGIC FROM B (Tabs) ---
+    (function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
 
-    // --- TAB SWITCHING LOGIC ---
     function switchTab(tabId) {
       // Hide all panels
       document.querySelectorAll('.content-panel').forEach(el => el.classList.remove('active'));
@@ -594,82 +600,122 @@
       event.target.classList.add('active');
     }
 
-    // --- LORENZ ATTRACTOR VISUALIZATION ---
-    // This represents the "Controlled Chaos" of the persona
-    const initVisuals = () => {
+    // --- BACKGROUND LOGIC FROM A (Lorenz Attractor) ---
+    // Note: This logic generates the "Big" color-shifting chaos from Example A
+    (function () {
       const canvas = document.getElementById('bg-canvas');
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true
+      });
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 80;
 
-      // Lorenz Parameters
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 100);
+
+      // Soft ambient light
+      const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+      scene.add(ambient);
+
+      // Lorenz parameters: chaotic, vibrant
+      const sigma = 10;
+      const rho = 28;
+      const beta = 8 / 3;
+
+      const dt = 0.005;
       let x = 0.1, y = 0, z = 0;
-      const sigma = 10, rho = 28, beta = 8 / 3;
-      const dt = 0.008;
+      const maxPoints = 8000;
 
-      // Geometry for the trail
-      const maxPoints = 4000;
-      const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(maxPoints * 3);
+      let index = 0;
+
+      const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-      // Material: Electric Blue
-      const material = new THREE.LineBasicMaterial({ color: 0x0055FF, linewidth: 2 });
-      const line = new THREE.Line(geometry, material);
-      scene.add(line);
+      const material = new THREE.LineBasicMaterial({
+        color: 0x0071e3,
+        linewidth: 3,
+        transparent: true,
+        opacity: 0.95
+      });
 
-      let count = 0;
+      const lorenzLine = new THREE.Line(geometry, material);
+      lorenzLine.scale.set(2.5, 2.5, 2.5); // Make it MUCH bigger (Style from A)
+      scene.add(lorenzLine);
 
+      // Subtle color shifting over time (Style from A)
+      let hue = 210; // start in blue
+      function updateColor() {
+        hue = (hue + 0.15) % 360;
+        const color = new THREE.Color("hsl(" + hue + ", 90%, 55%)");
+        lorenzLine.material.color = color;
+      }
+
+      // Integrate Lorenz system
+      function stepLorenz() {
+        const dx = sigma * (y - x);
+        const dy = x * (rho - z) - y;
+        const dz = x * y - beta * z;
+
+        x += dx * dt;
+        y += dy * dt;
+        z += dz * dt;
+
+        positions[index * 3 + 0] = x;
+        positions[index * 3 + 1] = y;
+        positions[index * 3 + 2] = z;
+
+        index++;
+        if (index >= maxPoints) {
+          // Shift points to create continuous, trailing effect
+          for (let i = 0; i < (maxPoints - 1) * 3; i++) {
+            positions[i] = positions[i + 3];
+          }
+          index = maxPoints - 1;
+        }
+
+        geometry.setDrawRange(0, index);
+        geometry.attributes.position.needsUpdate = true;
+      }
+
+      // Resize handler
+      function onResize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', onResize);
+      onResize();
+
+      let t = 0;
       function animate() {
         requestAnimationFrame(animate);
 
-        // Calculate Lorenz Step
-        const dx = sigma * (y - x) * dt;
-        const dy = (x * (rho - z) - y) * dt;
-        const dz = (x * y - beta * z) * dt;
-        x += dx; y += dy; z += dz;
+        // Multiple small steps per frame for smooth curves
+        for (let i = 0; i < 10; i++) stepLorenz();
 
-        // Shift array buffer
-        for (let i = maxPoints - 1; i > 0; i--) {
-          positions[i * 3] = positions[(i - 1) * 3];
-          positions[i * 3 + 1] = positions[(i - 1) * 3 + 1];
-          positions[i * 3 + 2] = positions[(i - 1) * 3 + 2];
-        }
+        // Slow orbit, give a sense of depth
+        t += 0.001;
+        const radius = 110;
+        camera.position.x = Math.cos(t) * radius;
+        camera.position.z = Math.sin(t) * radius;
+        camera.position.y = Math.sin(t * 0.5) * 15;
+        camera.lookAt(0, 0, 0);
 
-        // Add new point
-        positions[0] = x;
-        positions[1] = y;
-        positions[2] = z;
-
-        geometry.attributes.position.needsUpdate = true;
-
-        // Slow rotation of the entire system (The "View from Above")
-        line.rotation.z += 0.001;
-        line.rotation.y += 0.002;
+        updateColor();
 
         renderer.render(scene, camera);
       }
 
       animate();
-
-      // Handle Resize
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    };
-
-    // Initialize if Three.js is loaded
-    if (typeof THREE !== 'undefined') {
-      initVisuals();
-    } else {
-      console.log("Three.js not loaded - Visuals disabled.");
-    }
+    })();
   </script>
 </body>
 
